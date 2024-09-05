@@ -896,18 +896,22 @@ export const rejectBookingDetail = async (data, token) => {
 
 // Wallet
 export const getBalanceWallet = async (id, token) => {
-  try {
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    };
-    const res = await axios.get(GET_BALANCE_WALLET + `/${id}`, {
-      headers: headers,
-    });
-    return res.data.data;
-  } catch (error) {
-    return error;
-  }
+    try {
+      if(id) {
+          const headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          };
+          const res = await axios.get(GET_BALANCE_WALLET + `/${id}`, {
+            headers: headers,
+          });
+          return res.data.data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      return error;
+    }
 };
 
 // Wallet history

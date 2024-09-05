@@ -300,7 +300,7 @@ const Header: React.FC<HeaderProps> = ({ isModalVisible, setModalVisible }) => {
                   style={{ color: 'var(--black-color)' }}
                 >
                   <FontAwesomeIcon icon={faAddressCard} />
-                  <span className="profile-select">Cá nhân</span>
+                  <span className="profile-select">Thông tin</span>
                 </div>
                 {
                   user?.roleName == ROLE.couple && (

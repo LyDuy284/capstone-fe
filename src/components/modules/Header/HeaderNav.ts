@@ -6,7 +6,7 @@ export const HeaderNav = [
         items: [
             {
                 name: "Bảng điều khiển",
-                navigate: "/dashboards"
+                navigate: "/"
             },
             {
                 name: "tài khoản",

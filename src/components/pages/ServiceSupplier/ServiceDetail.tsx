@@ -188,6 +188,12 @@ const ServiceDetail: FC<Props> = (props) => {
     setImages(images.filter((img) => img != image));
   }
 
+  const renderDescription = (description: string) => {
+    return description.split('\n').map((item, index) => (
+      <p key={index}>{item}</p>
+    ));
+  };
+
   const ImageSlider: React.FC = () => {
     return (
       <Carousel autoPlay indicators>
@@ -224,7 +230,7 @@ const ServiceDetail: FC<Props> = (props) => {
                 <div className="underline"></div>
                 <div className="description">
                   <p className="description-header">Chi tiết</p>
-                  <div className="description-text">{serviceDetail?.description}</div>
+                  <div className="description-text">{renderDescription(`${serviceDetail?.description}`)}</div>
                 </div>
               </div>
             </div>

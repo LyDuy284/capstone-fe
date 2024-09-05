@@ -6,7 +6,6 @@ export type RegisterCouplePayload = {
     partnerName2: string;
     password: string;
     phoneNumber: string;
-    weddingDate: string;
 }
 
 export type RegisterSupplierPayload = {

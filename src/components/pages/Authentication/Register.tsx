@@ -136,6 +136,10 @@ const Register: FC<Props> = (props) => {
             supplierName: supplierName,
           };
           await registerSupplier(supplierRegister, dispatch, navigate);
+          props.setMessageStatus("green");
+          props.setMessage(
+            "Đăng ký thành công"
+          );
           navigate('/login');
           break;
 
@@ -148,9 +152,12 @@ const Register: FC<Props> = (props) => {
             partnerName2: partnerName2,
             password: password,
             phoneNumber: phoneNumber,
-            weddingDate: weddingDate,
           };
           await registerCouple(coupleRegister, dispatch, navigate);
+          props.setMessageStatus("green");
+          props.setMessage(
+            "Đăng ký thành công"
+          );
           navigate('/login');
           break;
       }
@@ -216,7 +223,7 @@ const Register: FC<Props> = (props) => {
               />
               <input
                 className="input"
-                placeholder="Tên công ty"
+                placeholder="Tên hiển thị"
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
@@ -293,16 +300,6 @@ const Register: FC<Props> = (props) => {
                 placeholder="Địa chỉ"
                 onChange={(e) => {
                   setAddress(e.target.value);
-                }}
-              />
-              <input
-                className="input"
-                type="text"
-                name="date"
-                pattern="\d{4}-\d{2}-\d{2}"
-                placeholder="Ngày cưới (YYYY-MM-DD)"
-                onChange={(e) => {
-                  setWeddingDate(e.target.value);
                 }}
               />
             </div>

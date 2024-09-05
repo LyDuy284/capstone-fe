@@ -94,12 +94,12 @@ function App() {
           {/* Will be refactored after completion of Dashboard */}
           {user && user?.roleName === ROLE.staff ? (
             <Route path="/" element={<StaffLayout />}>
-               <Route path="/staff/combo-services" element={<StaffManageComboServices setMessage={setMessage}
-              setMessageStatus={setMessageStatus} />} />
+              <Route path="/staff/combo-services" element={<StaffManageComboServices setMessage={setMessage}
+                setMessageStatus={setMessageStatus} />} />
               <Route path="/staff/services" element={<StaffManageServices setMessage={setMessage}
-              setMessageStatus={setMessageStatus} />} />
-              <Route path="/staff/blogs" element={<StaffManageBlogs  setMessage={setMessage}
-              setMessageStatus={setMessageStatus} />} />
+                setMessageStatus={setMessageStatus} />} />
+              <Route path="/staff/blogs" element={<StaffManageBlogs setMessage={setMessage}
+                setMessageStatus={setMessageStatus} />} />
               <Route
                 path="/staff/categories"
                 element={<StaffManageCategories />}
@@ -118,6 +118,8 @@ function App() {
                     setMessage={setMessage}
                     setMessageStatus={setMessageStatus}
                   />
+                ) : (user?.roleName === ROLE.admin) ? (
+                  <AdminDashboard />
                 ) : (
                   <HomePage />
                 )
@@ -158,7 +160,7 @@ function App() {
                 />
               }
             />
-            <Route path="/dashboards" element={<AdminDashboard />} />
+            <Route path="/" element={<AdminDashboard />} />
             <Route
               path="/deposit"
               element={
