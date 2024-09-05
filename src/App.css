@@ -1,0 +1,152 @@
+:root {
+    --white-color: #fff;
+    --black-color: #000;
+    --primary-color: rgba(213, 192, 133, 1);
+    --btn-hover-color: rgba(242, 230, 193, 1);
+    --background-hover: rgb(34 34 34 / 54%);
+    --background-header-staff: #4f4f4f;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fff;
+    line-height: 2.5rem;
+}
+
+.App {
+    text-align: center;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+.display-none {
+    display: none !important;
+}
+
+.hover-primary:hover {
+    color: var(--btn-hover-color);
+    cursor: pointer;
+}
+
+.hover:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.icon-back {
+    position: absolute;
+    left: 0;
+    margin-top: 4px !important;
+}
+
+.icon-back:hover {
+    cursor: pointer;
+}
+
+.btn {
+    background-color: var(--primary-color) !important;
+    border: none !important;
+    color: var(--white-color) !important;
+    border-radius: 5px !important;
+    font-weight: 500 !important;
+    padding: 5px 24px !important;
+}
+
+.btn:hover,
+.btn-delete:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.float-right {
+    float: right;
+}
+
+.mt-24 {
+    margin-top: 24px;
+}
+
+.mr-24 {
+    margin-right: 24px !important;
+}
+
+.mb-24 {
+    margin-bottom: 24px !important;
+}
+
+.ml-8 {
+    margin-left: 8% !important;
+}
+
+.btn-close {
+    background-color: var(--black-color) !important;
+    color: var(--white-color) !important;
+}
+
+.btn-reject {
+    background-color: red !important;
+    color: var(--white-color) !important;
+}
+
+.btn-create {
+    background-color: #4caf50 !important;
+    color: var(--white-color) !important;
+}
+
+.btn-remove-image {
+    position: absolute;
+    right: 0;
+    margin: 5px;
+}
+
+.underline {
+    border-bottom: 1px solid var(--black-color) !important;
+}
+
+.h2-title-page {
+    width: fit-content;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    text-align: left;
+    margin-bottom: 24px;
+    margin-left: 8px;
+}
+
+#demo-simple-select {
+    font-size: 1.5rem !important;
+    font-weight: bold;
+    padding-bottom: 6px;
+}
+
+.menu-select-item {
+    font-size: 1.5rem !important;
+}
+
+.divide-right {
+    border-right: 1px solid var(--black-color) !important;
+    height: 100%;
+}
+
+#btn-show-detail {
+    font-size: 1.5rem !important;
+}
+
+.MuiChartsAxis-left {
+    width: 80px;
+    /* Increase this value to make the container wider */
+}

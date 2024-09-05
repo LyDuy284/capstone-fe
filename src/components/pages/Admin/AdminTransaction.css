@@ -1,0 +1,16 @@
+#TransactionSummaryModal .group-header {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#TransactionSummaryModal .group-item {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+#TransactionSummaryModal .group-detail {
+    color: var(--black-color);
+    margin-left: 14px;
+}

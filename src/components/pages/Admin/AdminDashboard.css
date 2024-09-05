@@ -1,0 +1,44 @@
+#AdminDashboard {
+    margin: 24px 0;
+    padding: 0 10%;
+}
+
+#chart {
+    width: 100%;
+}
+
+#year-dropdown {
+    margin-right: 10% !important;
+}
+
+#AdminDashboard .chart-header {
+    padding: 24px 24px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#AdminDashboard .h2-title-page {
+    margin-bottom: 10%;
+}
+
+#AdminDashboard .chart-header-title {
+    text-align: left;
+}
+
+#AdminDashboard .chart-header-title span {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.5555555555555556;
+}
+
+#AdminDashboard .chart-header-title p {
+    margin: 0;
+    line-height: 1.5714285714285714;
+    font-size: 0.875rem;
+    font-family: Public Sans, sans-serif;
+    font-weight: 400;
+    color: #637381;
+    display: block;
+    margin-top: 4px;
+}

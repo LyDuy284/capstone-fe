@@ -1,0 +1,74 @@
+.msg-request {
+    background-color: var(--white-color);
+    position: fixed;
+    top: 110px;
+    right: 10px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+    padding: 10px 20px !important;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08);
+    max-width: 800px;
+    transition: all linear .3s;
+    animation: slideInLeft ease .3s;
+    text-transform: none;
+    padding-left: 12px;
+}
+
+.msg-request h1 {
+    font-size: 2rem;
+}
+
+.msg-content {
+    margin-bottom: 0;
+}
+
+.msg-close {
+    margin-left: 12px !important;
+}
+
+.msg-close i {
+    font-size: 24px;
+}
+
+.msg-request button {
+    float: right;
+    font-size: 2.4rem;
+    padding: 4px 12px;
+    line-height: 25px;
+    background-color: var(--white-color);
+    border: none;
+    vertical-align: middle;
+    border-radius: 4px;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(430px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(430px);
+    }
+}
+
+.hidden {
+    animation: slideOutRight ease .3s;
+    opacity: 0;
+    transform: translateX(430px);
+    display: none;
+    /* Ensure the element is removed from the layout after the animation */
+}

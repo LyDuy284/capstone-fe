@@ -1,0 +1,29 @@
+.btn-create-service:hover,
+.btn-edit-service:hover {
+    background-color: #4C3E3E !important;
+    color: #DDC48E !important;
+}
+
+.table {
+    box-shadow: 0 3px 13px 0 rgba(32, 40, 49, 0.1);
+}
+
+.table * {
+    font-size: 2rem;
+}
+
+.action {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+}
+
+.action * {
+    font-size: 2.5rem !important;
+}
+
+.action *:hover {
+    cursor: pointer;
+}

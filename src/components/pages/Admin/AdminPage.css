@@ -1,0 +1,113 @@
+#AdminPage {
+    padding: 2% 2% 5%;
+}
+
+#AdminPage * {
+    font-size: 2rem;
+}
+
+#AdminPage h2 {
+    margin-bottom: 5rem;
+    font-size: 4rem !important;
+    color: var(--primary-color);
+}
+
+#AdminPage .btn-admin-disable,
+#AdminPage .btn-admin-active {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 5px;
+    color: var(--white-color);
+}
+
+#AdminPage .btn-admin-active {
+    background-color: #4caf50;
+}
+
+#AdminPage .btn-admin-disable {
+    background-color: #f44336;
+}
+
+#AdminPage .filter-container {
+    display: flex;
+    justify-content: right;
+}
+
+#AdminPage .filter-dropdown {
+    width: 12% !important;
+}
+
+#AdminPage .filter-dropdown * {
+    font-size: 1.5rem !important;
+}
+
+#ModalCreateStaff {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#ModalCreateStaff .box {
+    max-width: 700px;
+    background-color: var(--white-color);
+    padding: 2rem 8rem;
+    border-radius: 25px;
+}
+
+#modal-modal-title {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.create-container {
+    width: 500px;
+}
+
+#ModalCreateStaff .group-input {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#ModalCreateStaff .group-input label {
+    font-size: 16px;
+    padding-top: 0.8rem;
+}
+
+#ModalCreateStaff .form-input {
+    width: 70%;
+}
+
+#ModalCreateStaff .form-input input {
+    width: 100%;
+    padding: 8px;
+}
+
+#ModalCreateStaff .regis-input {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    height: 34px;
+    margin-top: 0.7rem;
+    font-size: 16px;
+}
+
+#ModalCreateStaff .regis-input:focus {
+    border: 2px solid var(--primary-color);
+}
+
+#ModalCreateStaff .input-filter {
+    width: 100%;
+    margin-top: 0.7rem;
+}
+
+#ModalCreateStaff .btn-handle {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+#ModalCreateStaff .btn-handle * {
+    padding: 8px 3rem;
+}

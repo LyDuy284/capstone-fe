@@ -1,0 +1,188 @@
+#Services {
+    margin: 24px 0;
+    padding: 0 10%;
+}
+
+#Services .btn-create-service {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-transform: none !important;
+    box-shadow: 0 3px 13px 0 rgba(32, 40, 49, 0.1);
+    padding: 8px 24px;
+    border-radius: 5px;
+    margin-left: 12px;
+}
+
+#Services .create-service {
+    flex-wrap: nowrap;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+#ModalCreateService {
+    padding: 2% 5%;
+    height: auto;
+}
+
+#ModalCreateService * {
+    font-size: 2rem !important;
+}
+
+#ModalCreateService .box {
+    border-radius: 15px !important;
+    background-color: var(--white-color);
+    padding: 5% 5%;
+    max-height: 900px;
+    overflow-y: scroll;
+}
+
+#ModalCreateService ::-webkit-scrollbar {
+    border-radius: 15px !important;
+}
+
+#ModalCreateService input {
+    padding: 5px;
+}
+
+#Services .percent-input {
+    padding: 8px 8px 17px !important;
+}
+
+.create-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.dual-input {
+    margin-right: 150px;
+}
+
+.individual-input {
+    width: 100% !important;
+}
+
+.textarea {
+    padding: 5px;
+    width: 100%;
+    min-height: 200px;
+}
+
+.images {
+    flex-wrap: wrap;
+    display: flex;
+    width: 100%;
+    justify-content: space-between
+}
+
+.img-item {
+    position: relative;
+    width: 30%;
+}
+
+.img-item img {
+    width: 100%;
+}
+
+.group-input {
+    width: 30%;
+}
+
+.group-input-10 {
+    width: 10%;
+}
+
+.group-input-35 {
+    width: 35%;
+}
+
+.group-input-40 {
+    width: 40%;
+}
+
+.group-input-100 {
+    width: 100%;
+}
+
+.group-input label {
+    margin-right: 24px;
+}
+
+.select-box-container {
+    display: flex;
+    align-items: center;
+}
+
+.label-select {
+    color: var(--primary-color);
+    font-size: 2rem;
+    text-transform: uppercase;
+    margin-right: 8px;
+    margin-left: 12px;
+    margin-bottom: 4px;
+}
+
+.select-box {
+    margin-right: 12px !important;
+}
+
+.group-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+#ModalCreateService .form-input input {
+    width: 100%;
+    padding: 8px;
+}
+
+#ModalCreateService .label-select {
+    display: block;
+}
+
+#ModalCreateService .regis-input {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    height: 34px;
+    margin-top: 0.7rem;
+    font-size: 16px;
+}
+
+#ModalCreateService .regis-input:focus {
+    border: 2px solid var(--primary-color);
+}
+
+#ModalCreateService .input-filter {
+    width: 100%;
+}
+
+#ModalCreateService .price {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+#ModalCreateService .price-input {
+    width: 150px;
+}
+
+#ModalCreateService .group-create-promotion {
+    justify-content: space-between;
+}
+
+.css-v0pjtz-MuiStack-root>.MuiTextField-root,
+.css-v0pjtz-MuiStack-root>.MuiPickersTextField-root {
+    min-width: 200px !important;
+}
+
+#modal-title-h2 {
+    font-size: 4rem !important;
+    color: var(--primary-color);
+    font-weight: bold;
+}

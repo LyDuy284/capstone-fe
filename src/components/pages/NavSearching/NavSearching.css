@@ -1,0 +1,46 @@
+#Modal {
+    position: absolute;
+    background-color: var(--white-color);
+    padding: 32px;
+    margin-top: 96px;
+    z-index: 99;
+    height: 320px;
+    right: 0;
+    width: 100%;
+    padding: 1% 15%;
+}
+
+#NavSearching h2 {
+    text-transform: capitalize;
+    text-align: left;
+}
+
+
+#NavSearching .vendor-img {
+    width: 32px;
+    margin-right: 16px;
+}
+
+#NavSearching .vendor-list {
+    
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tạo 4 cột có chiều rộng bằng nhau */
+    gap: 10px; /* Khoảng cách giữa các phần tử */
+}
+
+#NavSearching .vendor-item {
+    color: var(--black-color);
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    text-transform: capitalize;
+    font-size: 2rem;
+    text-align: left;
+    padding: 12px;
+}
+
+#NavSearching .vendor-item:hover {
+    cursor: pointer;
+    background-color: navajowhite;
+}

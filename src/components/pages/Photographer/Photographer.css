@@ -1,0 +1,195 @@
+#Photographer {
+    position: relative;
+}
+
+#Photographer .row {
+    display: flex;
+    flex-wrap: nowrap;
+    }
+
+#Photographer .col-left {
+    padding: 5%;  
+    width: 100%;
+    padding-left: 15% !important;  
+}
+
+
+#Photographer .col-haft img {
+    width: 100%;
+    height: 100%;
+}
+
+#Photographer .cover-search {
+    display: flex;
+    align-items: center;
+    padding-left: 6%;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+#Photographer .landing-search {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    text-align: left;
+}
+
+#Photographer .header-search {
+    color: var(--primary-color);
+    font-size: 3.5rem;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+#Photographer .search-container {
+    width: 100%;
+    display: flex;
+}
+
+#Photographer .search {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #d9d9d9;
+    font-size: 2rem;
+    border-right: none;
+}
+
+#Photographer .search div {
+    display: flex;
+    color: var(--btn-hover-color);
+    align-items: center;
+}
+
+#Photographer .input {
+    margin-left: 12px;
+    font-size: 1.8rem;
+    outline: none;
+    border: none;
+}
+
+#Photographer .btn-search {
+    width: 15%;
+    background-color: var(--primary-color);
+    font-size: 1.5rem;
+    border-radius: 0 1rem 1rem 0;
+}
+
+#Photographer .btn-search:hover {
+    background-color: var(--btn-hover-color);
+}
+
+#Photographer .content {
+    display: flex;
+    padding: 2% 15%;
+}
+
+#Photographer .aside-bar {
+    display: block;
+    padding-bottom: 2.5rem;
+    grid-area: sidebar;
+    width: 20%;
+}
+
+#Photographer .filter-component {
+    border-bottom: 1px solid #d9d9d9;
+    text-align: left;
+    margin: 24px 0;
+    font-size: 1.5rem;
+}
+#Photographer .filter-name {
+    margin-left: 8px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+#Photographer .filter-list {
+    list-style-type: none;
+}
+#Photographer .filter-item {
+    margin-bottom: 8px;
+}
+
+#Photographer .filter-content {
+    width: 80%;
+    padding: 24px 50px;
+}
+
+#Photographer .content-header {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    text-align: left;
+    font-weight: 600;
+}
+
+#Photographer .content-header strong {
+    color: var(--primary-color);
+}
+
+#Photographer .content-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 24px;
+}
+
+#Photographer .content-item {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 24px;
+    justify-content: space-between;
+}
+
+#Photographer .content-gallery {
+    width: 30%;
+}
+
+#Photographer .content-gallery img {
+    width: 100%;
+    border-radius: 15px;
+}
+
+
+
+#Photographer .content-infor {
+    width: 67%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+#Photographer .item-title {
+    font-size: 1.7rem;
+}
+
+#Photographer .item-subtitle {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    font-size: 1.5rem;
+}
+
+#Photographer .item-rating {
+
+}
+
+#Photographer .item-location {
+    margin-left: 10px;
+}
+
+#Photographer .item-description {
+    word-break: break-word;
+    overflow: hidden;
+    height: 100px;
+}
+
+#Photographer .read-more {
+
+}
+
+#Photographer .item-footer {
+    margin-top: auto;
+    margin-left: auto;
+
+}
+
+#Photographer .btn-item {
+
+}
