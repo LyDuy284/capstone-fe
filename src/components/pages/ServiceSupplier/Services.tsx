@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router';
 import { Box, Button, CircularProgress, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material';
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { ECONOMY_SEGMENT, LUXURY_SEGMENT } from '../../../constants/consts';
+import { ALL_SELECT, ECONOMY_SEGMENT, LUXURY_SEGMENT } from '../../../constants/consts';
 import { createServiceSupplier, getListCategories, getPromotionBySupplier, getServicesByCategoryId, getServicesSupplierFilter } from '../../../redux/apiRequest';
 import { CategoryItem } from '../../../types/schema/category';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,6 +25,7 @@ interface Props {
 const storage = getStorage();
 
 const segments = [
+    ALL_SELECT,
     ECONOMY_SEGMENT,
     LUXURY_SEGMENT
 ]
@@ -70,7 +71,7 @@ const Services: FC<Props> = (props) => {
 
     const [promotions, setPromotions] = useState<PromotionItem[]>([]);
     const [promotion, setPromotion] = useState<any>();
-    const [segment, setSegment] = useState<any>(ECONOMY_SEGMENT);
+    const [segment, setSegment] = useState<any>(ALL_SELECT);
     const [segmentCreate, setSegmentCreate] = useState<any>(ECONOMY_SEGMENT);
     const [serviceName, setServiceName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
@@ -118,7 +119,7 @@ const Services: FC<Props> = (props) => {
         const categoryId = category?.id !== 'all' ? `${category?.id}` : undefined;
         const serviceId = service?.id !== 'all' ? `${service?.id}` : undefined;
         const segmentId = segment?.id;
-        const response = await getServicesSupplierFilter(user?.userId, categoryId, serviceId, segmentId);
+        const response = await getServicesSupplierFilter(user?.userId, categoryId, serviceId, (segmentId == ALL_SELECT?.id) ? undefined : segmentId);
         if (response) {
             setServiceSupplierList(response);
         } else {
