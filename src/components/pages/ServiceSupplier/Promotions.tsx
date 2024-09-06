@@ -116,6 +116,10 @@ const Promotions: FC<Props> = (props) => {
 
             const status = await createPromotion(newPromotion, user?.token);
             if (status == "SUCCESS") {
+                props.setMessageStatus("green");
+                props.setMessage(
+                    "Tạo mã giảm giá thành công."
+                );
                 handleClose();
                 fetchData();
             }

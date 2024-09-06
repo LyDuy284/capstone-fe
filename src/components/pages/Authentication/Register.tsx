@@ -17,13 +17,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   authentication,
-  firebaseNotificationConfig,
 } from '../../../firebase-config';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 import './Authentication.css';
 import {
-  loginUser,
   loginUserByGoogle,
   registerCouple,
   registerSupplier,
@@ -119,50 +117,69 @@ const Register: FC<Props> = (props) => {
   };
 
   const registerHandler = async (e: FormEvent) => {
-    e.preventDefault();
-    try {
-      switch (props.roleLogin) {
-        case ROLE.supplier:
-          const supplierRegister: RegisterSupplierPayload = {
-            email: username,
-            name: name,
-            address: address,
-            contactEmail: contactEmail,
-            contactPersonName: contactPersonName,
-            contactPhone: contactPhone,
-            password: password,
-            phoneNumber: phoneNumber,
-            supplierAddress: supplierAddress,
-            supplierName: supplierName,
-          };
-          await registerSupplier(supplierRegister, dispatch, navigate);
-          props.setMessageStatus("green");
-          props.setMessage(
-            "Đăng ký thành công"
-          );
-          navigate('/login');
-          break;
+    let checkPhone = true;
+    if (!/^\d*$/.test(phoneNumber)) {
+      props.setMessageStatus("red");
+      props.setMessage(
+        "Số điện thoại không thể chứa ký tự"
+      );
+      checkPhone = false;
+    }
+    // Check if the input length is exactly 10 digits
+    else if (phoneNumber.length !== 10) {
+      props.setMessageStatus("red");
+      props.setMessage(
+        "Vui lòng nhập 10 số"
+      );
+      checkPhone = false;
+    }
 
-        default:
-          const coupleRegister: RegisterCouplePayload = {
-            address: address,
-            email: username,
-            name: partnerName1,
-            partnerName1: partnerName1,
-            partnerName2: partnerName2,
-            password: password,
-            phoneNumber: phoneNumber,
-          };
-          await registerCouple(coupleRegister, dispatch, navigate);
-          props.setMessageStatus("green");
-          props.setMessage(
-            "Đăng ký thành công"
-          );
-          navigate('/login');
-          break;
+    e.preventDefault();
+    if (checkPhone) {
+      try {
+        switch (props.roleLogin) {
+          case ROLE.supplier:
+            const supplierRegister: RegisterSupplierPayload = {
+              email: username,
+              name: name,
+              address: address,
+              contactEmail: contactEmail,
+              contactPersonName: contactPersonName,
+              contactPhone: contactPhone,
+              password: password,
+              phoneNumber: phoneNumber,
+              supplierAddress: supplierAddress,
+              supplierName: supplierName,
+            };
+            await registerSupplier(supplierRegister, dispatch, navigate);
+            props.setMessageStatus("green");
+            props.setMessage(
+              "Đăng ký thành công"
+            );
+            navigate('/login');
+            break;
+
+          default:
+            const coupleRegister: RegisterCouplePayload = {
+              address: address,
+              email: username,
+              name: partnerName1,
+              partnerName1: partnerName1,
+              partnerName2: partnerName2,
+              password: password,
+              phoneNumber: phoneNumber,
+            };
+            await registerCouple(coupleRegister, dispatch, navigate);
+            props.setMessageStatus("green");
+            props.setMessage(
+              "Đăng ký thành công"
+            );
+            navigate('/login');
+            break;
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
