@@ -10,6 +10,37 @@ export interface StaffEntity {
     department: String,
 }
 
+// SUPPLIER
+export interface SupplierEntity {
+    image: String,
+    supplierName: String,
+    contactPersonName: String,
+    contactPhone: String,
+    contactEmail: String,
+    area: AreaEntity
+}
+
+export interface SupplierUpdate {
+    apartmentNumber: String,
+    contactEmail: String,
+    contactNumber: String,
+    district: String,
+    image: String,
+    name: String,
+    province: String,
+    supplierId: String,
+    ward: String
+}
+
+export interface AreaEntity {
+    id: String,
+    province: String,
+    district: String,
+    ward: String,
+    apartmentNumber: String,
+    status: String,
+}
+
 // CATEGORY
 export interface CategoryEntity {
     id: String,

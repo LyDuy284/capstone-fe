@@ -1,0 +1,8 @@
+#Profile .input {
+    border: 1px solid var(--black-color);
+    border-radius: 5px;
+    padding: 12px;
+    width: 100%;
+    margin-bottom: 24px;
+    font-size: 2rem !important;
+}
