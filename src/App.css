@@ -113,6 +113,13 @@ body {
     margin: 5px;
 }
 
+.btn-refresh {
+    padding: 14px !important;
+    background-color: var(--white-color) !important;
+    color: var(--black-color) !important;
+    font-size: 1.5rem!important;
+}
+
 .underline {
     border-bottom: 1px solid var(--black-color) !important;
 }

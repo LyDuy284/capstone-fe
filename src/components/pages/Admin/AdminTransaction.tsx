@@ -21,16 +21,13 @@ const AdminTransaction: FC<Props> = (props) => {
     const [rowsDetail, setRowsDetail] = useState<any>([]);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoadingPopup, setIsLoadingPopup] = useState<boolean>(false);
     const [open, setOpen] = useState(false);
     const handleClose = () => { setRowsDetail([]); setOpen(false) };
 
     useEffect(() => {
         fetchData();
     }, [])
-
-    useEffect(() => {
-
-    }, [rowsDetail])
 
     async function fetchData() {
         setIsLoading(true);
@@ -40,26 +37,30 @@ const AdminTransaction: FC<Props> = (props) => {
     }
 
     async function handleOpen(id: string) {
+        setIsLoadingPopup(true);
         const response = await getTransactionSummaryDetail(id, user?.token);
 
         if (response instanceof Error) {
             props.setMessage("Booking chưa hoàn thành");
             props.setMessageStatus("red");
         } else {
-            // Handle the successful data
-            setTransactionSummary(response)
-            if (transactionSummary) {
-                let rows = response?.supplierAmountDetails.length > 0 ? response?.supplierAmountDetails.map((item: SupplierAmountDetail) => ({
+            try {
+                // Handle the successful data
+                setTransactionSummary(response)
+                setRowsDetail(response?.supplierAmountDetails.length > 0 ? response?.supplierAmountDetails.map((item: SupplierAmountDetail) => ({
                     id: item.supplierId,
                     name: item.supplierName,
                     phone: item.contactPhone,
                     price: currencyMaskString(parseInt(`${item.price}`)),
-                })) : [];
-                setRowsDetail(rows);
+                })) : []);
+                setIsLoadingPopup(false);
+                setOpen(true)
+            } catch (error) {
+                props.setMessage("Có lỗi xảy ra");
+                props.setMessageStatus("red");
             }
         }
-        setOpen(true)
-
+        setIsLoadingPopup(false);
     }
 
     const style = {
@@ -139,6 +140,7 @@ const AdminTransaction: FC<Props> = (props) => {
                             aria-describedby="modal-modal-description"
                             id="TransactionSummaryModal"
                         >
+
                             <Box sx={style}>
                                 <Typography id="modal-modal-title" variant="h6" component="h2">
                                     <div className="group-header">
@@ -161,13 +163,16 @@ const AdminTransaction: FC<Props> = (props) => {
                                             </div>
                                         </div>
                                     </div>
+
                                     {
-                                        rowsDetail.length < 0 && (
-                                            <CircularProgress />
+                                        isLoadingPopup && (
+                                            <div className="w-full flex items-center justify-center h-[70vh]">
+                                                <CircularProgress />
+                                            </div>
                                         )
                                     }
                                     {
-                                        rowsDetail.length > 0 && (
+                                        !isLoadingPopup && (
                                             <div className="table" style={{ height: 400, width: "100%", marginTop: "30px" }}>
                                                 <DataGrid rows={rowsDetail}
                                                     columns={columnsDetail}
@@ -179,6 +184,7 @@ const AdminTransaction: FC<Props> = (props) => {
                                                         },
                                                     }} />
                                             </div>
+
                                         )
                                     }
                                 </Typography>

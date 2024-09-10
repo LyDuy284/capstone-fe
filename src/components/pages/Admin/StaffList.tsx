@@ -87,6 +87,10 @@ const StaffList: FC<Props> = (props) => {
         handleOpenStatus();
     };
 
+    const handleRefresh = () => {
+        fetchData();
+    }
+
     async function handleConfirmChange(newChecked: boolean) {
         if (selectedId) {
             const userConfirmed = window.confirm("Bạn có muốn thay đổi trạng thái?");
@@ -222,6 +226,9 @@ const StaffList: FC<Props> = (props) => {
                         }
                     </Select>
                 </FormControl>
+                <Button onClick={handleRefresh} className='filter-dropdown btn-refresh' variant="contained" color="primary">
+                    Làm mới
+                </Button>
             </div>
             {
                 isLoading && (

@@ -215,55 +215,60 @@ const Header: React.FC<HeaderProps> = ({ isModalVisible, setModalVisible }) => {
           </div>
         ) : (
           <div className="header-right">
-            {isDisplayBalance ? (
-              <>
-                <RemoveRedEyeIcon
-                  className="hover-primary"
-                  style={{ color: 'var(--black-color)' }}
-                  onClick={() => setIsDisplayBalance(false)}
-                ></RemoveRedEyeIcon>
-                <span className="balance">{balance?.toLocaleString()} VNĐ</span>
-              </>
-            ) : (
-              <>
-                <VisibilityOffIcon
-                  className="hover-primary"
-                  style={{ color: 'var(--black-color)' }}
-                  onClick={() => setIsDisplayBalance(true)}
-                ></VisibilityOffIcon>
-                <span className="balance">******* VNĐ</span>
-              </>
-            )}
+            {
+              (user?.roleName != ROLE.admin) &&
+              (<>
+                {isDisplayBalance ? (
+                  <>
+                    <RemoveRedEyeIcon
+                      className="hover-primary"
+                      style={{ color: 'var(--black-color)' }}
+                      onClick={() => setIsDisplayBalance(false)}
+                    ></RemoveRedEyeIcon>
+                    <span className="balance">{balance?.toLocaleString()} VNĐ</span>
+                  </>
+                ) : (
+                  <>
+                    <VisibilityOffIcon
+                      className="hover-primary"
+                      style={{ color: 'var(--black-color)' }}
+                      onClick={() => setIsDisplayBalance(true)}
+                    ></VisibilityOffIcon>
+                    <span className="balance">******* VNĐ</span>
+                  </>
+                )}
 
-            <IconButton onClick={() => navigate('/wallet-history')}>
-              <AccountBalanceWalletIcon
-                sx={{ fontSize: 30, color: 'var(--black-color)' }}
-              />
-            </IconButton>
-            {user?.roleName != ROLE.supplier ? (
-              <>
-                <IconButton
-                  onClick={() => {
-                    navigate('/booking-history');
-                  }}
-                >
-                  <ReceiptLongIcon
+                <IconButton onClick={() => navigate('/wallet-history')}>
+                  <AccountBalanceWalletIcon
                     sx={{ fontSize: 30, color: 'var(--black-color)' }}
                   />
                 </IconButton>
-                <IconButton
-                  onClick={() => {
-                    navigate('/quotation');
-                  }}
-                >
-                  <Badge badgeContent={services.length} color="error">
-                    <ShoppingCartIcon
-                      sx={{ fontSize: 30, color: 'var(--black-color)' }}
-                    />{' '}
-                  </Badge>
-                </IconButton>
-              </>
-            ) : null}
+                {user?.roleName != ROLE.supplier ? (
+                  <>
+                    <IconButton
+                      onClick={() => {
+                        navigate('/booking-history');
+                      }}
+                    >
+                      <ReceiptLongIcon
+                        sx={{ fontSize: 30, color: 'var(--black-color)' }}
+                      />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => {
+                        navigate('/quotation');
+                      }}
+                    >
+                      <Badge badgeContent={services.length} color="error">
+                        <ShoppingCartIcon
+                          sx={{ fontSize: 30, color: 'var(--black-color)' }}
+                        />{' '}
+                      </Badge>
+                    </IconButton>
+                  </>
+                ) : null}
+              </>)
+            }
 
             <div
               className="navlink user-wrap"
