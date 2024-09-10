@@ -42,6 +42,7 @@ import {
     GET_SERVICE_SUPPLIER_BY_ID,
     GET_SERVICE_SUPPLIER_BY_SUPPLIER_ID,
     GET_SERVICE_SUPPLIER_FILTER,
+    GET_SUPPLIER_PROFILE,
     GET_SUPPLIERS_BLOGS,
     GET_TRANSACTION_BY_COUPLE,
     GET_TRANSACTION_SUMMARY_DETAIL,
@@ -942,6 +943,19 @@ export const topupWallet = async(data, token) => {
 
 // Account
 
+export const getSupplierProfile = async(id, token) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+    };
+    try {
+        const res = await axios.get(GET_SUPPLIER_PROFILE + `?id=${id}`, { headers });
+        return res.data.data;
+    } catch (error) {
+        return error;
+    }
+};
+
 export const updateCoupleProfile = async(couple, token) => {
     const data = {
         key: 'value',
@@ -965,25 +979,16 @@ export const updateCoupleProfile = async(couple, token) => {
 };
 
 export const updateSupplierProfile = async(supplier, token) => {
-    const data = {
-        key: 'value',
+    const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
     };
-    fetch(
-            'https://thedaywedding-hkaybdgafndhecbn.southeastasia-01.azurewebsites.net' +
-            UPDATE_SUPPLIER_PROFILE,
-            supplier, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(data),
-            }
-        )
-        .then((response) => response.json())
-        .then((data) => console.log(data.status))
-        .catch((error) => console.error('Error:', error));
-    return data.status;
+    try {
+        const res = await axios.put(UPDATE_SUPPLIER_PROFILE, supplier, { headers });
+        return res.data.data;
+    } catch (error) {
+        return error;
+    }
 };
 export const activatedByAdmin = async(id, token) => {
     const data = {

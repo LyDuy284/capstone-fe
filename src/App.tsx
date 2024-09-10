@@ -51,6 +51,7 @@ import AdminDashboard from './components/pages/Admin/AdminDashboard';
 import Deposit from './components/pages/Admin/Deposit';
 import AdminTransaction from './components/pages/Admin/AdminTransaction';
 import StaffManageComboServices from './components/pages/StaffManager/StaffManageComboServices';
+import Profile from './components/pages/ServiceSupplier/Profile';
 // import { listStaffRoute, listSupplierRoute } from "./constants/route";
 
 function App() {
@@ -183,6 +184,8 @@ function App() {
 
           {/* Supplier */}
           <Route element={<ProtectedRoute requiredRole={ROLE.supplier} />}>
+            <Route path="/profile-supplier" element={<Profile setMessage={setMessage}
+                  setMessageStatus={setMessageStatus} />} />
             <Route
               path="/services"
               element={
@@ -231,7 +234,9 @@ function App() {
           </Route>
 
           {/* Test View */}
-          <Route path="/profile" element={<UpdateProfile />} />
+          <Route element={<ProtectedRoute requiredRole={ROLE.couple} />}>
+            <Route path="/profile" element={<UpdateProfile />} />
+          </Route>
 
           {/* Guest */}
           <Route path="/photographer" element={<Photographer />} />

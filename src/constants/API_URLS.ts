@@ -77,6 +77,7 @@ export const GET_ALL_ACCOUNT_BY_ROLE = '/account/getAllAccountByRole';
 export const GET_ALL_ACCOUNT_BY_ADMIN = '/account/getAllAccountByAdmin';
 export const ACTIVATED_BY_ADMIN = '/account/activateAccountByAdmin';
 export const DISABLED_BY_ADMIN = '/account/disableAccountByAdmin';
+export const GET_SUPPLIER_PROFILE = '/account/getSupplierProfile';
 export const UPDATE_COUPLE_PROFILE = '/account/updateCoupleProfile';
 export const UPDATE_SUPPLIER_PROFILE = '/account/updateSupplierProfile';
 

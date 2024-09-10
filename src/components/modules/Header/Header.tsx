@@ -281,7 +281,7 @@ const Header: React.FC<HeaderProps> = ({ isModalVisible, setModalVisible }) => {
                 <div className="user-name">{user?.name}</div>
                 <img
                   className="avt"
-                  src="https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
+                  src={user?.image ? user.image : "https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"}
                   alt=""
                 />
               </div>
@@ -300,7 +300,10 @@ const Header: React.FC<HeaderProps> = ({ isModalVisible, setModalVisible }) => {
                 <div
                   className="dropdown-option"
                   onClick={() => {
-                    navigate('/profile');
+                    (user?.roleName == ROLE.supplier) ?
+                      navigate('/profile-supplier')
+                      :
+                      navigate('/profile');
                   }}
                   style={{ color: 'var(--black-color)' }}
                 >
