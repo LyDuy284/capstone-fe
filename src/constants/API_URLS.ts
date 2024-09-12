@@ -5,6 +5,7 @@ export const ACCOUNT_REGISTER_COUPLE = '/auth/register/couple';
 export const ACCOUNT_REGISTER_SUPPLIER = '/auth/register/supplier';
 export const ACCOUNT_REGISTER_STAFF = '/auth/register/staff';
 export const GET_COUPLE_BY_ID = '/account/getCoupleProfile';
+export const CHECK_EXIST_EMAIL = '/auth/check/email';
 
 // Staff API
 export const GET_ALL_BLOGS = '/blog/getAllBlogPosts';
