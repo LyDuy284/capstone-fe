@@ -23,6 +23,7 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 import './Authentication.css';
 import {
+  checkEmailExist,
   loginUser,
   loginUserByGoogle,
   registerCouple,
@@ -71,6 +72,8 @@ const Register: FC<Props> = (props) => {
   const [address, setAddress] = useState<string>('');
   const [weddingDate, setWeddingDate] = useState<string>('');
 
+  const [checkEmail, setcheckEmail] = useState<boolean>(false);
+
   const [contactEmail, setContactEmail] = useState<string>('');
   const [contactPersonName, setContactPersonName] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -109,13 +112,20 @@ const Register: FC<Props> = (props) => {
     console.log(props.roleLogin);
   }, [props.roleLogin]);
 
-  const handlePasswordConfirmation = () => {
-    if (password === confirmPassword) {
-      setIsInput(true);
-    } else {
-      props.setMessage('Mật khẩu không giống nhau');
+  const handlePasswordConfirmation = async () => {
+     const checkEmail =  await checkEmailExist(username);
+     if(!checkEmail) {
+      if (password === confirmPassword) {
+        setIsInput(true);
+      } else {
+        props.setMessage('Mật khẩu không giống nhau');
+        props.setMessageStatus('red');
+      }
+     } else {
+      props.setMessage('Email đã được sử dụng');
       props.setMessageStatus('red');
-    }
+     }
+    
   };
 
   const registerHandler = async (e: FormEvent) => {

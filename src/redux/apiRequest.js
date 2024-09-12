@@ -7,6 +7,7 @@ import {
   ACCOUNT_REGISTER_SUPPLIER,
   ACTIVATED_BY_ADMIN,
   CANCEL_BOOKING,
+  CHECK_EXIST_EMAIL,
   CREATE_CATEGORY,
   CREATE_COMBO,
   CREATE_POST,
@@ -151,6 +152,15 @@ export const logoutUser = async (dispatch, navigate) => {
   }
 };
 
+export const checkEmailExist = async (email) => {
+  try{
+    let url = `${CHECK_EXIST_EMAIL}?email=${email}`;
+    const res = await axios.post(url);
+    return res.data.data;
+  } catch(error){
+    return error;
+  }
+}
 // Couple
 
 export const registerCouple = async (newUser, navigate, dispatch) => {
