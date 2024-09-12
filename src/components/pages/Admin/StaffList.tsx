@@ -289,7 +289,7 @@ const StaffList: FC<Props> = (props) => {
                             <div className="group-input">
                                 <label>Tên đăng nhập:</label>
                                 <div className="form-input">
-                                    <input type="Username" className="input regis-input" required onChange={(e) => { setUsername(e.target.value) }} />
+                                    <input type="Name" className="input regis-input" required onChange={(e) => { setEmail(e.target.value) }} />
                                     <span className="text-err"></span>
                                 </div>
                             </div>
@@ -308,9 +308,9 @@ const StaffList: FC<Props> = (props) => {
                                 </div>
                             </div>
                             <div className="group-input">
-                                <label>Email:</label>
+                                <label>Tên nhân viên:</label>
                                 <div className="form-input">
-                                    <input type="Email" className="input regis-input" required onChange={(e) => { setEmail(e.target.value) }} />
+                                    <input type="Username" className="input regis-input" required onChange={(e) => { setUsername(e.target.value) }} />
                                     <span className="text-err"></span>
                                 </div>
                             </div>

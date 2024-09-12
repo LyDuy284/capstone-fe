@@ -76,12 +76,20 @@ body {
     float: right;
 }
 
+.pt-8 {
+    padding-top: 8px !important;
+}
+
 .mt-24 {
     margin-top: 24px;
 }
 
 .mr-24 {
     margin-right: 24px !important;
+}
+
+.mr-12 {
+    margin-right: 12px !important;
 }
 
 .mb-24 {

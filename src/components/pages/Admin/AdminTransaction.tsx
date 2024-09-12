@@ -27,6 +27,8 @@ const AdminTransaction: FC<Props> = (props) => {
 
     useEffect(() => {
         fetchData();
+        console.log("rowsDetail", rowsDetail);
+
     }, [])
 
     async function fetchData() {

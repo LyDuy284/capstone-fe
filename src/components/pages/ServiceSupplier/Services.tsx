@@ -25,7 +25,6 @@ interface Props {
 const storage = getStorage();
 
 const segments = [
-    ALL_SELECT,
     ECONOMY_SEGMENT,
     LUXURY_SEGMENT
 ]
@@ -71,7 +70,7 @@ const Services: FC<Props> = (props) => {
 
     const [promotions, setPromotions] = useState<PromotionItem[]>([]);
     const [promotion, setPromotion] = useState<any>();
-    const [segment, setSegment] = useState<any>(ALL_SELECT);
+    const [segment, setSegment] = useState<any>(ECONOMY_SEGMENT);
     const [segmentCreate, setSegmentCreate] = useState<any>(ECONOMY_SEGMENT);
     const [serviceName, setServiceName] = useState<string>('');
     const [description, setDescription] = useState<string>('');

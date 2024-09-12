@@ -905,7 +905,7 @@ export const getBalanceWallet = async(id, token) => {
 };
 
 // Wallet history
-export const getWalletHistory = async(id, token) => {
+export const getWalletHistory = async(id, token, from, to) => {
     try {
         const headers = {
             'Content-Type': 'application/json',
@@ -913,7 +913,7 @@ export const getWalletHistory = async(id, token) => {
         };
         const res = await axios.get(
             GET_WALLET_HISTORY +
-            `?isAscending=true&pageNo=0&pageSize=100&sortBy=id&walletId=${id}`, {
+            `?isAscending=true&pageNo=0&pageSize=100&sortBy=id&timeFrom=${from}&timeTo=${to}&walletId=${id}`, {
                 headers: headers,
             }
         );
