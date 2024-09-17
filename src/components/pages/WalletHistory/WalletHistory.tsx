@@ -5,6 +5,7 @@ import {
   Chip,
   CircularProgress,
   Divider,
+  Pagination,
   Table,
   TableBody,
   TableCell,
@@ -15,17 +16,43 @@ import {
 } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { getBalanceWallet, getWalletHistory } from '../../../redux/apiRequest';
+import dayjs, { Dayjs } from 'dayjs';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const WalletHistory: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<any[]>([]);
   const user = useSelector((state: any) => state.auth.login.currentUser);
+  const date = dayjs();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Number of items per page
+
+  const [startDate, setStartDate] = React.useState<Dayjs | null>(
+    date.startOf('month')
+  );
+  const [endDate, setEndDate] = React.useState<Dayjs | null>(
+    date.endOf('month')
+  );
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setCurrentPage(page);
+  };
 
   const getData = async () => {
     setLoading(true);
     const res = await getBalanceWallet(user.accountId, user.token);
     if (res) {
-      const response = await getWalletHistory(res.id, user.token);
+      const response = await getWalletHistory(
+        res?.id,
+        user?.token,
+        formatDateToFilter(startDate),
+        formatDateToFilter(endDate)
+      );
+
       if (response) setData(response);
     }
     setLoading(false);
@@ -33,7 +60,11 @@ const WalletHistory: React.FC = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [startDate, endDate]); // Depend on date changes
+
+  const formatDateToFilter = (date: Dayjs | null): string => {
+    return date ? date.format('YYYY-MM-DD') : '';
+  };
 
   const formatDate = (dateString: string) => {
     if (!dateString) return '';
@@ -53,6 +84,12 @@ const WalletHistory: React.FC = () => {
 
     return `${formattedTime}, ${formattedDate}`;
   };
+
+  // Paginate data
+  const paginatedData = data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <Box p={3}>
@@ -75,6 +112,22 @@ const WalletHistory: React.FC = () => {
           Lịch sử ví
         </Divider>
       </Typography>
+      <Box mb={4} display="flex" gap={2} alignItems="center">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="Start Date"
+            value={startDate}
+            onChange={(newValue: Dayjs | null) => setStartDate(newValue)}
+            format="DD/MM/YYYY"
+          />
+          <DatePicker
+            label="End Date"
+            value={endDate}
+            onChange={(newValue: Dayjs | null) => setEndDate(newValue)}
+            format="DD/MM/YYYY"
+          />
+        </LocalizationProvider>
+      </Box>
       {loading ? (
         <div className="flex h-[50vh] justify-center items-center">
           <CircularProgress />
@@ -135,36 +188,43 @@ const WalletHistory: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data &&
-                  data.map((item: any) => (
-                    <TableRow key={item.id}>
-                      <TableCell sx={{ fontSize: 14 }}>{item?.id}</TableCell>
-                      <TableCell sx={{ fontSize: 14 }}>
-                        {formatDate(item.createDate)}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: 14 }}>
-                        {item.amount.toLocaleString()} VND
-                      </TableCell>
-                      <TableCell sx={{ fontSize: 14 }}>
-                        <Chip
-                          color={item.type === 'PlUS' ? 'success' : 'error'}
-                          label={item.type === 'PlUS' ? 'Cộng' : 'Trừ'}
-                          sx={{
-                            height: '24px',
-                            width: '60px',
-                            fontSize: 12,
-                            fontWeight: 600,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell sx={{ fontSize: 14 }}>
-                        {item.description}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                {paginatedData.map((item: any) => (
+                  <TableRow key={item.id}>
+                    <TableCell sx={{ fontSize: 14 }}>{item?.id}</TableCell>
+                    <TableCell sx={{ fontSize: 14 }}>
+                      {formatDate(item.createDate)}
+                    </TableCell>
+                    <TableCell sx={{ fontSize: 14 }}>
+                      {item.amount.toLocaleString()} VND
+                    </TableCell>
+                    <TableCell sx={{ fontSize: 14 }}>
+                      <Chip
+                        color={item.type === 'PlUS' ? 'success' : 'error'}
+                        label={item.type === 'PlUS' ? 'Cộng' : 'Trừ'}
+                        sx={{
+                          height: '24px',
+                          width: '60px',
+                          fontSize: 12,
+                          fontWeight: 600,
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell sx={{ fontSize: 14 }}>
+                      {item.description}
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
+          <Box display="flex" justifyContent="center" mt={2}>
+            <Pagination
+              count={Math.ceil(data.length / itemsPerPage)}
+              page={currentPage}
+              onChange={handlePageChange}
+              variant="outlined"
+            />
+          </Box>
         </>
       )}
     </Box>

@@ -35,7 +35,7 @@ const BookingHistory: React.FC = () => {
     setLoading(true);
     const res = await getBookingHistoryByCoupleId(user.userId, user.token);
     if (res) {
-      const sortedData = res.sort(
+      const sortedData = res?.sort(
         (a: any, b: any) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );

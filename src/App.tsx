@@ -95,12 +95,33 @@ function App() {
           {/* Will be refactored after completion of Dashboard */}
           {user && user?.roleName === ROLE.staff ? (
             <Route path="/" element={<StaffLayout />}>
-              <Route path="/staff/combo-services" element={<StaffManageComboServices setMessage={setMessage}
-                setMessageStatus={setMessageStatus} />} />
-              <Route path="/staff/services" element={<StaffManageServices setMessage={setMessage}
-                setMessageStatus={setMessageStatus} />} />
-              <Route path="/staff/blogs" element={<StaffManageBlogs setMessage={setMessage}
-                setMessageStatus={setMessageStatus} />} />
+              <Route
+                path="/staff/combo-services"
+                element={
+                  <StaffManageComboServices
+                    setMessage={setMessage}
+                    setMessageStatus={setMessageStatus}
+                  />
+                }
+              />
+              <Route
+                path="/staff/services"
+                element={
+                  <StaffManageServices
+                    setMessage={setMessage}
+                    setMessageStatus={setMessageStatus}
+                  />
+                }
+              />
+              <Route
+                path="/staff/blogs"
+                element={
+                  <StaffManageBlogs
+                    setMessage={setMessage}
+                    setMessageStatus={setMessageStatus}
+                  />
+                }
+              />
               <Route
                 path="/staff/categories"
                 element={<StaffManageCategories />}
@@ -119,7 +140,7 @@ function App() {
                     setMessage={setMessage}
                     setMessageStatus={setMessageStatus}
                   />
-                ) : (user?.roleName === ROLE.admin) ? (
+                ) : user?.roleName === ROLE.admin ? (
                   <AdminDashboard />
                 ) : (
                   <HomePage />
@@ -184,8 +205,15 @@ function App() {
 
           {/* Supplier */}
           <Route element={<ProtectedRoute requiredRole={ROLE.supplier} />}>
-            <Route path="/profile-supplier" element={<Profile setMessage={setMessage}
-                  setMessageStatus={setMessageStatus} />} />
+            <Route
+              path="/profile-supplier"
+              element={
+                <Profile
+                  setMessage={setMessage}
+                  setMessageStatus={setMessageStatus}
+                />
+              }
+            />
             <Route
               path="/services"
               element={
@@ -269,7 +297,7 @@ function App() {
             element={<CoupleServiceDetail />}
           />
 
-          <Route path="/services/*" element={<CoupleService />} />
+          <Route path="/services/:categoryID" element={<CoupleService />} />
 
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

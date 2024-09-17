@@ -9,37 +9,8 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { ServiceData } from '../../../utils/ServiceData';
 import { getBlogsList, getListCombo } from '../../../api/CoupleAPI';
-
-const blogs = [
-  {
-    image: 'https://ggmeo.com/images/linh-thu-dtcl/ahri-ti-ni.jpg',
-    title: 'Blog 1',
-    date: '2023-07-29',
-    description:
-      'Blog description 1Blog description 1Blog description 1Blog description 1Blog description 1Blog description 1Blog description 1',
-  },
-  {
-    image: 'https://ggmeo.com/images/linh-thu-dtcl/ahri-ti-ni.jpg',
-    title: 'Blog 2',
-    date: '2023-07-28',
-    description:
-      'Blog description 2Blog description 1Blog description 1Blog description 1Blog description 1Blog description 1Blog description 1Blog description 1Blog description 1',
-  },
-  {
-    image: 'https://ggmeo.com/images/linh-thu-dtcl/ahri-ti-ni.jpg',
-    title:
-      'Blog 3Blog 3Blog og 3Blog 3Blog og 3Blog 3Blog 3Blog 3Blog 3Blog 3Blog 3Blog 3',
-    date: '2023-07-29',
-    description:
-      'Blog description 1Blog description 1Blog description 1Blog description 1Blog description 1Blog description 1',
-  },
-  {
-    image: 'https://ggmeo.com/images/linh-thu-dtcl/ahri-ti-ni.jpg',
-    title: 'Blog 4',
-    date: '2023-07-28',
-    description: 'Blog description 2',
-  },
-];
+import { getListCategories } from '../../../redux/apiRequest';
+import { KeyboardArrowDown } from '@mui/icons-material';
 
 const data = [
   {
@@ -74,7 +45,11 @@ const HomePage: React.FC = () => {
   const [slide, setSlide] = useState(0);
   const [blogsList, setBlogsList] = useState<any[]>([]);
   const [combos, setCombos] = useState<any[]>([]);
-
+  const [categories, setCategories] = useState<any[]>([]);
+  const [visibleCount, setVisibleCount] = useState(9); // Số lượng item hiển thị hiện tại
+  const handleShowMore = () => {
+    setVisibleCount((prevCount) => prevCount + 9);
+  };
   const getData = async () => {
     const response = await getBlogsList({
       pageNo: 0,
@@ -84,9 +59,13 @@ const HomePage: React.FC = () => {
     const combos = await getListCombo(0, 100);
     setCombos(combos);
   };
-  console.log(combos);
+  const getCategories = async () => {
+    const response = await getListCategories(0, 100);
+    setCategories(response.data);
+  };
   useEffect(() => {
     getData();
+    getCategories();
   }, []);
 
   const formatDate = (dateString: string) => {
@@ -145,7 +124,6 @@ const HomePage: React.FC = () => {
   const handleMouseUp = () => {
     isDown.current = false;
   };
-
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!isDown.current || !scrollRef.current) return;
     e.preventDefault();
@@ -203,7 +181,7 @@ const HomePage: React.FC = () => {
           Các dịch vụ chính
         </Typography>
         <Grid container spacing={4}>
-          {services.map((service, index) => (
+          {categories.slice(0, visibleCount).map((service, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Card
                 sx={{
@@ -215,7 +193,6 @@ const HomePage: React.FC = () => {
                 }}
                 elevation={4}
               >
-                <CardMedia sx={{ height: 150 }} image={service.imageSmall} />
                 <CardContent>
                   <Typography
                     variant="h5"
@@ -226,16 +203,26 @@ const HomePage: React.FC = () => {
                       fontWeight: 600,
                     }}
                     onClick={() => {
-                      navigate(service.navigate);
+                      window.location.href = `/services/${service.id}`;
                     }}
                   >
-                    {service.label}
+                    {service.categoryName}
                   </Typography>
                 </CardContent>
               </Card>
             </Grid>
           ))}
         </Grid>
+        {visibleCount < categories.length && (
+          <Box mt={4} textAlign="center">
+            <div
+              className="cursor-pointer text-2xl font-semibold text-yellow-400 hover:text-yellow-500 "
+              onClick={handleShowMore}
+            >
+              Xem thêm <KeyboardArrowDown sx={{ fontSize: 24 }} />
+            </div>
+          </Box>
+        )}
       </Box>
       <Box my={8} mx={2}>
         <Typography

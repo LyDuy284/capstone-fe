@@ -56,21 +56,16 @@ const BlogDetails: React.FC = () => {
   useEffect(() => {
     getData();
   }, []);
-
+  console.log(blogDetail);
   return (
     <Container style={{ padding: '20px', textAlign: 'left' }}>
       <Typography fontSize={40} fontWeight={600}>
         {blogDetail?.title}
       </Typography>
       <Box display="flex" alignItems="center" marginTop="10px">
-        <Avatar
-          src="https://ggmeo.com/images/linh-thu-dtcl/ahri-ti-ni.jpg"
-          alt="Author"
-          style={{ width: '50px', height: '50px' }}
-        />
         <Box marginLeft="10px">
           <Typography variant="body1">
-            By Martin Fouilleul — {blogDetail?.createAt}
+            By {blogDetail?.staffName} — {blogDetail?.createAt}
           </Typography>
         </Box>
       </Box>
@@ -95,7 +90,7 @@ const BlogDetails: React.FC = () => {
         </Typography>
       </Paper>
 
-      <Paper sx={{ my: 4, p: 2 }} elevation={4}>
+      {/* <Paper sx={{ my: 4, p: 2 }} elevation={4}>
         <Box p={2}>
           <Typography variant="h4" gutterBottom>
             {blogDetail?.listComments?.length} Bình luận
@@ -173,7 +168,7 @@ const BlogDetails: React.FC = () => {
             })}
           </Grid>
         </Box>
-      </Paper>
+      </Paper> */}
     </Container>
   );
 };
