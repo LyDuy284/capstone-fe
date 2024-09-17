@@ -21,16 +21,16 @@ export const getFilterPrice = (value: number) => {
 
 export const getLabel = (value: number): string => {
   if (value >= 0 && value < 1) {
-    return "Kém";
+    return 'Kém';
   } else if (value >= 1 && value < 2) {
-    return "Trung bình";
+    return 'Trung bình';
   } else if (value >= 2 && value < 3) {
-    return "Ok";
+    return 'Ok';
   } else if (value >= 3 && value < 4) {
-    return "Tốt";
+    return 'Tốt';
   } else if (value >= 4 && value <= 5) {
-    return "Tuyệt vời";
+    return 'Tuyệt vời';
   } else {
-    return "";
+    return '';
   }
 };

@@ -115,9 +115,10 @@ const Header: React.FC<HeaderProps> = ({ isModalVisible, setModalVisible }) => {
               <li
                 className={
                   `nav-item` +
-                  `${item.navigate == location.pathname
-                    ? ' nav-item-selected'
-                    : ''
+                  `${
+                    item.navigate == location.pathname
+                      ? ' nav-item-selected'
+                      : ''
                   }`
                 }
                 onClick={() => {
@@ -215,9 +216,8 @@ const Header: React.FC<HeaderProps> = ({ isModalVisible, setModalVisible }) => {
           </div>
         ) : (
           <div className="header-right">
-            {
-              (user?.roleName != ROLE.admin) &&
-              (<>
+            {user?.roleName != ROLE.admin && (
+              <>
                 {isDisplayBalance ? (
                   <>
                     <RemoveRedEyeIcon
@@ -225,7 +225,9 @@ const Header: React.FC<HeaderProps> = ({ isModalVisible, setModalVisible }) => {
                       style={{ color: 'var(--black-color)' }}
                       onClick={() => setIsDisplayBalance(false)}
                     ></RemoveRedEyeIcon>
-                    <span className="balance">{balance?.toLocaleString()} VNĐ</span>
+                    <span className="balance">
+                      {balance?.toLocaleString()} VNĐ
+                    </span>
                   </>
                 ) : (
                   <>
@@ -267,8 +269,8 @@ const Header: React.FC<HeaderProps> = ({ isModalVisible, setModalVisible }) => {
                     </IconButton>
                   </>
                 ) : null}
-              </>)
-            }
+              </>
+            )}
 
             <div
               className="navlink user-wrap"
@@ -281,7 +283,11 @@ const Header: React.FC<HeaderProps> = ({ isModalVisible, setModalVisible }) => {
                 <div className="user-name">{user?.name}</div>
                 <img
                   className="avt"
-                  src={user?.image ? user.image : "https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"}
+                  src={
+                    user?.image
+                      ? user.image
+                      : 'https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg'
+                  }
                   alt=""
                 />
               </div>
@@ -300,36 +306,33 @@ const Header: React.FC<HeaderProps> = ({ isModalVisible, setModalVisible }) => {
                 <div
                   className="dropdown-option"
                   onClick={() => {
-                    (user?.roleName == ROLE.supplier) ?
-                      navigate('/profile-supplier')
-                      :
-                      navigate('/profile');
+                    user?.roleName == ROLE.supplier
+                      ? navigate('/profile-supplier')
+                      : navigate('/profile');
                   }}
                   style={{ color: 'var(--black-color)' }}
                 >
                   <FontAwesomeIcon icon={faAddressCard} />
                   <span className="profile-select">Thông tin</span>
                 </div>
-                {
-                  user?.roleName == ROLE.couple && (
-                    <>
-                      <div
-                        className="dropdown-option"
-                        onClick={() => navigate('/transaction-history')}
-                      >
-                        <FontAwesomeIcon icon={faCreditCard} />
-                        <span className="profile-select">Lịch sử thanh toán</span>
-                      </div>
-                      <div
-                        className="dropdown-option"
-                        onClick={() => navigate('/wallet-history')}
-                      >
-                        <FontAwesomeIcon icon={faWallet} />
-                        <span className="profile-select">Lịch sử ví</span>
-                      </div>
-                    </>
-                  )
-                }
+                {user?.roleName == ROLE.couple && (
+                  <>
+                    <div
+                      className="dropdown-option"
+                      onClick={() => navigate('/transaction-history')}
+                    >
+                      <FontAwesomeIcon icon={faCreditCard} />
+                      <span className="profile-select">Lịch sử thanh toán</span>
+                    </div>
+                    <div
+                      className="dropdown-option"
+                      onClick={() => navigate('/wallet-history')}
+                    >
+                      <FontAwesomeIcon icon={faWallet} />
+                      <span className="profile-select">Lịch sử ví</span>
+                    </div>
+                  </>
+                )}
                 <div className="dropdown-option" onClick={logoutHandler}>
                   <FontAwesomeIcon icon={faRightFromBracket} />
                   <span className="profile-select">Đăng xuất</span>

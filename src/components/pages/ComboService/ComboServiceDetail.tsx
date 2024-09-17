@@ -1,18 +1,6 @@
 import { useNavigate, useParams } from 'react-router';
-import {
-  Box,
-  Grid,
-  Typography,
-  Button,
-  Link,
-  Rating,
-  Paper,
-  Divider,
-} from '@mui/material';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import StarIcon from '@mui/icons-material/Star';
+import { Box, Grid, Typography, Button, Paper, Divider } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { getLabel } from '../../../utils/Utils';
 import { getServiceById } from '../../../api/CoupleAPI';
 import { addToCart } from '../../../utils/CartStorage';
 import ItemServiceViewCard from '../StepByStep/ItemServiceViewCard';
@@ -27,9 +15,9 @@ const ComboServiceDetail = () => {
       image: service?.imageUrl,
       name: service?.title,
       price: service?.price,
-      promotion: 0,
+      promotion: (service?.promotion && service?.promotion.value) ?? 0,
       quantity: 1,
-      category: 's',
+      category: service?.serviceResponse?.categoryResponse?.id,
     });
     window.location.href = '/quotation';
     // navigate(`/quotation`);
