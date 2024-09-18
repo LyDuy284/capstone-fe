@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
   Table,
   TableBody,
   TableCell,
@@ -28,7 +27,6 @@ const CoupleQuotation: React.FC = () => {
   const navigate = useNavigate();
   const [servicesPrice, setServicePrice] = useState(getCart());
   const [modalOpen, setModalOpen] = useState(false);
-  console.log(servicesPrice);
   useEffect(() => {
     const handleStorageChange = () => {
       setServicePrice(getCart());
@@ -65,7 +63,6 @@ const CoupleQuotation: React.FC = () => {
   }, 0);
 
   const finalTotalPrice = totalPrice - totalPromotionPrice;
-
   return (
     <Box p={3}>
       <Typography

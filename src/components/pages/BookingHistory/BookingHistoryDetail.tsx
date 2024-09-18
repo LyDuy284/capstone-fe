@@ -531,15 +531,7 @@ const BookingHistoryDetail: React.FC = () => {
                     {totalPrice().toLocaleString()} VND
                   </Box>
                 </Typography>
-                <Typography my={1} variant="h5">
-                  Tiền đã cọc (20%):{' '}
-                  <Box
-                    component="span"
-                    sx={{ color: 'blue', fontWeight: 'bold' }}
-                  >
-                    {(totalPrice() * 0.2)?.toLocaleString()} VND
-                  </Box>
-                </Typography>
+
                 <Typography my={1} variant="h5">
                   Còn lại:{' '}
                   <Box
@@ -601,7 +593,11 @@ const BookingHistoryDetail: React.FC = () => {
                           component="span"
                           sx={{ color: 'red', fontWeight: 'bold' }}
                         >
-                          {(totalPrice() * 0.2).toLocaleString()} VNĐ
+                          {(
+                            totalPrice() -
+                            totalPrice() * 0.2
+                          )?.toLocaleString()}{' '}
+                          VND
                         </Box>
                       </Typography>
                     </Box>

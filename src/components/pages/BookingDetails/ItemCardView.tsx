@@ -6,9 +6,7 @@ import {
   Typography,
   Box,
   Grid,
-  Rating,
 } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
 export interface VenueCardProps {
   imageUrl: string;
   title: string;
@@ -55,26 +53,7 @@ const ItemCardView: React.FC<VenueCardProps> = ({
               <Typography component="div" variant="h4" fontWeight={600}>
                 {title}
               </Typography>
-              <Box sx={{ mb: 3, display: 'flex', alignItems: 'bottom' }}>
-                <Rating
-                  name="text-feedback"
-                  value={rating}
-                  readOnly
-                  precision={0.1}
-                  size="large"
-                  emptyIcon={
-                    <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-                  }
-                />
-                <Typography
-                  color="text.secondary"
-                  sx={{ marginLeft: '5px' }}
-                  fontSize={14}
-                  fontWeight={500}
-                >
-                  {rating}
-                </Typography>
-              </Box>
+
               {promotion ? (
                 promotion?.type === 'MONEY' ? (
                   <Typography fontSize={14} fontWeight={500} color={'red'}>

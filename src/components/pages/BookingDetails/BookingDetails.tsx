@@ -222,7 +222,6 @@ const BookingDetails: React.FC = () => {
             >
               <TextField
                 disabled
-                label="Tên liên hệ"
                 value={userData?.account.name}
                 defaultValue={''}
                 fullWidth
@@ -241,7 +240,6 @@ const BookingDetails: React.FC = () => {
               />
               <TextField
                 disabled
-                label="Số điện thoại"
                 value={userData?.account.phoneNumber}
                 defaultValue={''}
                 margin="normal"
@@ -260,7 +258,6 @@ const BookingDetails: React.FC = () => {
               />{' '}
               <TextField
                 disabled
-                label="Email"
                 value={userData?.account.email}
                 defaultValue={''}
                 margin="normal"
@@ -279,7 +276,6 @@ const BookingDetails: React.FC = () => {
               />
               <TextField
                 disabled
-                label="Địa chỉ"
                 value={userData?.account.address}
                 defaultValue={''}
                 fullWidth

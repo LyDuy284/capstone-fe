@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Chip, Rating } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
-import RequestPricePopup from '../Popup/Couple/RequestPricePopup';
+import { Button, Chip } from '@mui/material';
+
 import { addToCart } from '../../../utils/CartStorage';
 
 interface ServiceItemViewCardProps {

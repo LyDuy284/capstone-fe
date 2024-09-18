@@ -1,9 +1,9 @@
-import { faPersonHalfDress } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import "./NavSearching.css";
-import { useNavigate } from "react-router";
-import { ServiceData } from "../../../utils/ServiceData";
+import { faPersonHalfDress } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
+import './NavSearching.css';
+import { useNavigate } from 'react-router';
+import { ServiceData } from '../../../utils/ServiceData';
 
 const NavSearching = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const NavSearching = () => {
             <li
               className="vendor-item"
               onClick={() => {
-                navigate(`${item.navigate}`);
+                window.location.href = `/services/${item.id}`;
               }}
               key={index}
             >

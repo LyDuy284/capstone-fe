@@ -8,19 +8,21 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import ServiceItemViewCard from './ServiceItemViewCard';
 import { ServiceData } from '../../../utils/ServiceData';
 import {
   getServiceByCategory,
   getServicesByCategory,
 } from '../../../api/CoupleAPI';
-import { HourglassEmpty, Inventory } from '@mui/icons-material';
+import { Inventory } from '@mui/icons-material';
 
 const CoupleService = () => {
+  const { categoryID } = useParams();
+
   const location = useLocation();
   const path = location.pathname.split('/')[2];
-  const coupleServiceData = ServiceData.find((e) => e.name === path);
+  // const coupleServiceData = ServiceData.find((e) => e.name === path);
   const [selectedService, setSelectedService] = useState<any[]>([]);
 
   const [selectedServiceList, setSelectedServiceList] = useState<any[]>([]);
@@ -90,9 +92,9 @@ const CoupleService = () => {
   };
 
   useEffect(() => {
-    getServices(coupleServiceData?.id ?? '');
-    getSelectedServiceList(coupleServiceData?.id ?? '', '', '', '');
-  }, [coupleServiceData]);
+    getServices(categoryID ?? '');
+    getSelectedServiceList(categoryID ?? '', '', '', '');
+  }, []);
   // Handle page change
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -106,23 +108,13 @@ const CoupleService = () => {
     setCurrentPage(1);
     const newType = event.target.value;
     setType(newType);
-    getSelectedServiceList(
-      coupleServiceData?.id ?? '',
-      newType,
-      priceRange,
-      service
-    );
+    getSelectedServiceList(categoryID ?? '', newType, priceRange, service);
   };
   const handleServiceChange = (event: any) => {
     setCurrentPage(1);
     const newService = event.target.value;
     setService(newService);
-    getSelectedServiceList(
-      coupleServiceData?.id ?? '',
-      type,
-      priceRange,
-      newService
-    );
+    getSelectedServiceList(categoryID ?? '', type, priceRange, newService);
   };
 
   // Handle price range change
@@ -130,12 +122,7 @@ const CoupleService = () => {
     setCurrentPage(1);
     const newPriceRange = event.target.value;
     setPriceRange(newPriceRange);
-    getSelectedServiceList(
-      coupleServiceData?.id ?? '',
-      type,
-      newPriceRange,
-      service
-    );
+    getSelectedServiceList(categoryID ?? '', type, newPriceRange, service);
   };
   // Paginate items
   const paginatedItems = selectedServiceList?.slice(
@@ -148,12 +135,12 @@ const CoupleService = () => {
     setPriceRange('');
     setService('');
     setCurrentPage(1);
-    getSelectedServiceList(coupleServiceData?.id ?? '', '', '', '');
+    getSelectedServiceList(categoryID ?? '', '', '', '');
   };
   return (
     <div id="CoupleService">
       <div className="image-service">
-        <img src={coupleServiceData?.imageBig} alt={coupleServiceData?.alt} />
+        {/* <img src={coupleServiceData?.imageBig} alt={coupleServiceData?.alt} /> */}
       </div>
 
       <div className="content">
@@ -294,7 +281,7 @@ const CoupleService = () => {
                   description={item.description}
                   price={item.price}
                   suplierID={item.id}
-                  categoryId={coupleServiceData?.id ?? ''}
+                  categoryId={categoryID ?? ''}
                 />
               ))}
           </ul>

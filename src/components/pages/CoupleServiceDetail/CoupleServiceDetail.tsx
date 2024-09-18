@@ -1,58 +1,23 @@
 import './CoupleServiceDetail.css';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import {
   Box,
   Grid,
   Typography,
   Button,
-  Link,
-  Rating,
   Paper,
-  LinearProgress,
-  Pagination,
   Chip,
-  Input,
   TextField,
   CircularProgress,
 } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import FlagOutlined from '@mui/icons-material/Flag';
-import StarIcon from '@mui/icons-material/Star';
 import { useEffect, useState } from 'react';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { ReviewCard, ReviewCardModel } from './ReviewCard';
-import { getLabel } from '../../../utils/Utils';
-import RatingPopup from '../Popup/Couple/RatingPopup';
-import RequestPricePopup from '../Popup/Couple/RequestPricePopup';
-import { getServiceById } from '../../../api/CoupleAPI';
+
 import { addToCart } from '../../../utils/CartStorage';
 import { getServiceSupplierById } from '../../../redux/apiRequest';
-
-const reviews: ReviewCardModel[] = [
-  {
-    username: 'Ahri',
-    rating: 5,
-    date: '2023-10-19 13:13',
-    content: 'Dịch vụ uy tín',
-    avatar: 'https://ggmeo.com/images/linh-thu-dtcl/ahri-ti-ni.jpg',
-  },
-  {
-    username: 'Ahri',
-    rating: 5,
-    date: '2023-10-19 13:13',
-    content: 'Dịch vụ uy tín',
-    avatar: 'https://ggmeo.com/images/linh-thu-dtcl/ahri-ti-ni.jpg',
-  },
-];
-
-const totalReviews = 369;
-
-const ratings = [
-  { name: 'Số lượng', rating: 5.0 },
-  { name: 'Chất lượng', rating: 5.0 },
-  { name: 'Đúng giờ', rating: 5.0 },
-];
 
 const CoupleServiceDetail = () => {
   const [number, setNumber] = useState(1);
@@ -67,12 +32,11 @@ const CoupleServiceDetail = () => {
       image: service?.listImages[0],
       name: service?.name,
       price: service?.price,
-      promotion: (service?.promotion && service?.promotion.value) ?? 0,
+      promotion: service?.promotion,
       quantity: number,
       category: service?.serviceResponse?.categoryResponse?.id,
     });
   };
-  const [openReview, setOpenReview] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -85,14 +49,6 @@ const CoupleServiceDetail = () => {
     getData();
   }, [id]);
 
-  const handleOpenReview = () => {
-    setOpenReview(true);
-  };
-
-  const handleCloseReview = () => {
-    setOpenReview(false);
-  };
-
   const handleSubmitReview = (ratingData: {
     quantity: number;
     quality: number;
@@ -102,13 +58,23 @@ const CoupleServiceDetail = () => {
     console.log('Submitted Rating:', ratingData);
     // Handle the submitted rating data here
   };
+  console.log(service);
   function calculateFinalPrice() {
     const price = service?.price;
-    const promotionValue = service?.promotion?.value ?? 1;
-    const finalPrice =
-      promotionValue !== 1
-        ? price * number - (price * number * promotionValue) / 100
-        : price * number;
+    let finalPrice = 0;
+    if (service?.promotion?.type === 'PERCENT') {
+      const promotionValue = service?.promotion?.value ?? 1;
+      finalPrice =
+        promotionValue !== 1
+          ? price * number - (price * number * promotionValue) / 100
+          : price * number;
+    } else {
+      const promotionValue = service?.promotion?.value ?? 1;
+      finalPrice =
+        promotionValue !== 1
+          ? price * number - number * promotionValue
+          : price * number;
+    }
 
     return finalPrice.toLocaleString();
   }
@@ -221,123 +187,6 @@ const CoupleServiceDetail = () => {
                       </Typography>
                     ))}
                 </Box>
-
-                <Box mt={4} mb={4}>
-                  <Typography variant="h4" gutterBottom align="left">
-                    Đánh giá {service?.name}
-                  </Typography>
-                  <Grid container spacing={2} mt={2}>
-                    <Grid item xs={5} sx={{ textAlign: 'left' }}>
-                      <Box>
-                        <Box display="flex" alignItems="center">
-                          <Typography
-                            variant="h6"
-                            component="span"
-                            sx={{ fontSize: 20, fontWeight: 600 }}
-                          >
-                            4.8
-                          </Typography>
-                          <Typography
-                            component="span"
-                            sx={{ fontSize: 16, ml: 1 }}
-                          >
-                            {getLabel(4.8)}
-                          </Typography>
-                        </Box>
-                        <Rating
-                          name="rating-service-feedback"
-                          value={service?.rating}
-                          readOnly
-                          precision={0.1}
-                          size="large"
-                          emptyIcon={
-                            <StarIcon
-                              style={{ opacity: 0.55 }}
-                              fontSize="inherit"
-                            />
-                          }
-                        />
-                        <Typography
-                          variant="body1"
-                          sx={{ fontSize: 14, lineHeight: 2 }}
-                        >
-                          {totalReviews} đánh giá
-                        </Typography>
-                      </Box>
-
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          backgroundColor: 'var(--primary-color)',
-                          '&:hover': {
-                            backgroundColor: 'var(--btn-hover-color)',
-                          },
-                        }}
-                        style={{
-                          marginTop: '10px',
-                          width: '300px',
-                          padding: '10px 20px',
-                        }}
-                        onClick={handleOpenReview}
-                      >
-                        Viết đánh giá
-                      </Button>
-                      <RatingPopup
-                        open={openReview}
-                        onClose={handleCloseReview}
-                        serviceName="Service Name"
-                        onSubmit={handleSubmitReview}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Box>
-                        {ratings.map((item, index) => (
-                          <Box
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="space-between"
-                            mt={2}
-                            width={400}
-                          >
-                            <Typography fontSize={16}>{item.name}</Typography>
-                            <Box display="flex" alignItems="center">
-                              <LinearProgress
-                                variant="determinate"
-                                value={(item.rating / 5) * 100}
-                                style={{
-                                  width: '200px',
-                                  height: '10px',
-                                  marginRight: '10px',
-                                  borderRadius: '5px',
-                                }}
-                                sx={{
-                                  '& .MuiLinearProgress-bar': {
-                                    bgcolor: 'var(--primary-color)',
-                                  },
-                                }}
-                              />
-                              <Typography fontSize={16}>
-                                {item.rating.toFixed(1)}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        ))}
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Box>
-
-                <Box mt={4}>
-                  {reviews.map((review, index) => (
-                    <ReviewCard key={index} review={review} />
-                  ))}
-                  <Box display="flex" justifyContent="center" my={4}>
-                    <Pagination count={10} variant="outlined" />
-                  </Box>
-                </Box>
               </Grid>
 
               <Grid item xs={12} sm={4}>
@@ -363,27 +212,7 @@ const CoupleServiceDetail = () => {
                       display: 'flex',
                       alignItems: 'center',
                     }}
-                  >
-                    <Rating
-                      name="rating-service"
-                      value={service?.rating}
-                      readOnly
-                      precision={0.1}
-                      size="large"
-                      emptyIcon={
-                        <StarIcon
-                          style={{ opacity: 0.55 }}
-                          fontSize="inherit"
-                        />
-                      }
-                    />
-                    <Typography variant="h5" sx={{ ml: 1 }}>
-                      {service?.rating}
-                    </Typography>
-                    <Typography variant="h5" sx={{ ml: 1 }}>
-                      {getLabel(service?.rating)}
-                    </Typography>
-                  </Box>
+                  ></Box>
                   <Box
                     sx={{ display: 'flex', justifyContent: 'space-between' }}
                   >
@@ -469,7 +298,9 @@ const CoupleServiceDetail = () => {
                               fontSize: 16,
                             }}
                           >
-                            {service?.promotion.value}%
+                            {service?.promotion?.type === 'PERCENT'
+                              ? `${service?.promotion.value} %`
+                              : `${service?.promotion.value.toLocaleString()} VNĐ`}
                           </span>
                         </Typography>
                         <Typography fontSize={12}>
