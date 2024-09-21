@@ -115,13 +115,13 @@ const WalletHistory: React.FC = () => {
       <Box mb={4} display="flex" gap={2} alignItems="center">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            label="Start Date"
+            label="Ngày bắt đầu"
             value={startDate}
             onChange={(newValue: Dayjs | null) => setStartDate(newValue)}
             format="DD/MM/YYYY"
           />
           <DatePicker
-            label="End Date"
+            label="Ngày kết thúc"
             value={endDate}
             onChange={(newValue: Dayjs | null) => setEndDate(newValue)}
             format="DD/MM/YYYY"

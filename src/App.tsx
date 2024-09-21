@@ -263,7 +263,15 @@ function App() {
 
           {/* Test View */}
           <Route element={<ProtectedRoute requiredRole={ROLE.couple} />}>
-            <Route path="/profile" element={<UpdateProfile />} />
+            <Route
+              path="/profile"
+              element={
+                <UpdateProfile
+                  setMessage={setMessage}
+                  setMessageStatus={setMessageStatus}
+                />
+              }
+            />
           </Route>
 
           {/* Guest */}
