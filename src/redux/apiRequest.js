@@ -191,7 +191,7 @@ export const getAllCoupleByAdmin = async (token) => {
   try {
     const res = await axios.get(
       GET_ALL_COUPLE_BY_ADMIN +
-        '?isAscending=true&pageNo=0&pageSize=10&sortBy=id',
+        '?isAscending=true&pageNo=0&pageSize=100&sortBy=id',
       {
         headers: headers,
       }
@@ -663,9 +663,12 @@ export const getBookingById = async (id, token) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     };
-    const res = await axios.get(GET_BOOKING_BY_ID + `?id=${id}`, {
-      headers: headers,
-    });
+    const res = await axios.get(
+      GET_BY_ADMIN + '?isAscending=true&pageNo=0&pageSize=100&sortBy=id',
+      {
+        headers: headers,
+      }
+    );
     return res.data.data;
   } catch (error) {
     return error;
@@ -1078,7 +1081,7 @@ export const getAllAccountByRole = async (role, token) => {
       Authorization: `Bearer ${token}`,
     };
     const res = await axios.get(
-      GET_ALL_ACCOUNT_BY_ROLE + `?pageNo=0&pageSize=10&role=${role}`,
+      GET_ALL_ACCOUNT_BY_ROLE + `?pageNo=0&pageSize=100&role=${role}`,
       {
         headers: headers,
       }

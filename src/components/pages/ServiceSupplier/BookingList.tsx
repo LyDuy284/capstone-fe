@@ -146,6 +146,7 @@ const BookingList: FC<Props> = (props) => {
         id: booking.id,
         idDisplay: booking.id.split("BOOKING-")[1],
         coupleName: booking.coupleResponse.account.name,
+        phoneNumber: booking.coupleResponse.account.phoneNumber,
         weddingDate: booking.weddingDate,
         createAt: booking.createAt,
         status: convertStatusName(`${booking.status}`),
@@ -156,7 +157,7 @@ const BookingList: FC<Props> = (props) => {
         { field: "idDisplay", headerName: "ID", flex: 0.5 },
         { field: "coupleName", headerName: "Tên couple", flex: 0.5 },
         { field: "weddingDate", headerName: "Ngày cưới", flex: 0.5 },
-        { field: "status", headerName: "Trạng thái", flex: 0.5 },
+        { field: "phoneNumber", headerName: "Số điện thoại", flex: 0.5 },
         {
             field: 'booking',
             headerName: 'Chi tiết',
