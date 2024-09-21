@@ -329,7 +329,7 @@ const CoupleServiceDetail = () => {
                     }}
                     onClick={handleAddToCart}
                   >
-                    {calculateFinalPrice()} VND
+                    Đặt dịch vụ
                   </Button>
                   {/* <RequestPricePopup
                   open={openRequest}
