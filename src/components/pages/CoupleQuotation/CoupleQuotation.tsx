@@ -142,15 +142,7 @@ const CoupleQuotation: React.FC = () => {
               >
                 Khuyến mãi
               </TableCell>
-              <TableCell
-                sx={{
-                  fontSize: 16,
-                  color: 'var(--primary-color)',
-                  fontWeight: 600,
-                }}
-              >
-                Thành tiền
-              </TableCell>
+
               <TableCell
                 sx={{
                   fontSize: 16,
@@ -219,31 +211,8 @@ const CoupleQuotation: React.FC = () => {
                     <>-</>
                   )}
                 </TableCell>
-                <TableCell sx={{ fontSize: 14 }}>
-                  {product.promotion ? (
-                    product.promotion?.type === 'MONEY' ? (
-                      <>
-                        {(
-                          (product.price - product.promotion?.value) *
-                          product.quantity
-                        ).toLocaleString()}
-                      </>
-                    ) : (
-                      <>
-                        {(
-                          (product.price -
-                            (product.price * (product.promotion?.value ?? 0)) /
-                              100) *
-                          product.quantity
-                        ).toLocaleString()}{' '}
-                      </>
-                    )
-                  ) : (
-                    <>{(product.price * product.quantity).toLocaleString()}</>
-                  )}{' '}
-                  VNĐ
-                </TableCell>
-                <TableCell>
+
+                <TableCell sx={{ textAlign: 'center' }}>
                   <IconButton onClick={() => handleRemoveFromCart(product.id)}>
                     <DeleteIcon sx={{ fontSize: 30, color: 'red' }} />
                   </IconButton>
@@ -294,7 +263,7 @@ const CoupleQuotation: React.FC = () => {
             disabled={servicesPrice.length === 0}
             onClick={() => setModalOpen(true)}
           >
-            Tạo đơn
+            Đặt dịch vụ
           </Button>
         </Box>
       </Box>

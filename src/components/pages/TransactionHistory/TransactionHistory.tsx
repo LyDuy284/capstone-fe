@@ -12,44 +12,74 @@ import {
   TableHead,
   TableRow,
   Typography,
+  Pagination,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { getTransactionHistoryByCoupleId } from '../../../redux/apiRequest';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 const TransactionHistory: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<any[]>([]);
+  const [startDate, setStartDate] = useState<Dayjs | null>(
+    dayjs().startOf('month')
+  );
+  const [endDate, setEndDate] = useState<Dayjs | null>(dayjs().endOf('month'));
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Số lượng mục trên mỗi trang
   const user = useSelector((state: any) => state.auth.login.currentUser);
+
   const getData = async () => {
     setLoading(true);
-    const res = await getTransactionHistoryByCoupleId(user.userId, user.token);
+    const from = startDate ? startDate.format('YYYY-MM-DD') : '';
+    const to = endDate ? endDate.format('YYYY-MM-DD') : '';
+
+    const res = await getTransactionHistoryByCoupleId(
+      user.userId,
+      user.token,
+      from,
+      to
+    );
     if (res) {
       setData(res);
     }
     setLoading(false);
   };
+
   useEffect(() => {
     getData();
-  }, []);
-  console.log(data);
+  }, [startDate, endDate]); // Cập nhật khi ngày thay đổi
+
   const formatDate = (dateString: string) => {
     if (!dateString) return '';
-
     const date = new Date(dateString);
-
     const formattedTime = date.toLocaleTimeString('en-GB', {
       hour: '2-digit',
       minute: '2-digit',
     });
-
     const formattedDate = date.toLocaleDateString('en-GB', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
     });
-
     return `${formattedTime}, ${formattedDate}`;
   };
+
+  // Phân trang dữ liệu
+  const paginatedData = data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setCurrentPage(page);
+  };
+
   return (
     <Box p={3}>
       <Typography
@@ -71,6 +101,24 @@ const TransactionHistory: React.FC = () => {
           Lịch sử thanh toán
         </Divider>
       </Typography>
+
+      <Box mb={4} display="flex" gap={2} alignItems="center">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="Start Date"
+            value={startDate}
+            onChange={(newValue: Dayjs | null) => setStartDate(newValue)}
+            format="DD/MM/YYYY"
+          />
+          <DatePicker
+            label="End Date"
+            value={endDate}
+            onChange={(newValue: Dayjs | null) => setEndDate(newValue)}
+            format="DD/MM/YYYY"
+          />
+        </LocalizationProvider>
+      </Box>
+
       {loading ? (
         <div className="flex h-[50vh] justify-center items-center">
           <CircularProgress />
@@ -90,7 +138,6 @@ const TransactionHistory: React.FC = () => {
                   >
                     Mã thanh toán
                   </TableCell>
-
                   <TableCell
                     sx={{
                       fontSize: 16,
@@ -100,7 +147,6 @@ const TransactionHistory: React.FC = () => {
                   >
                     Ngày thanh toán
                   </TableCell>
-
                   <TableCell
                     sx={{
                       fontSize: 16,
@@ -131,42 +177,48 @@ const TransactionHistory: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data &&
-                  data.map((item: any) => (
-                    <TableRow key={item.id}>
-                      <TableCell sx={{ fontSize: 14 }}>{item?.id}</TableCell>
-                      <TableCell sx={{ fontSize: 14 }}>
-                        {formatDate(item.dateCreated)}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: 14 }}>
-                        {item.amount.toLocaleString()} VND
-                      </TableCell>
-                      <TableCell sx={{ fontSize: 14 }}>
-                        {item.paymentMethod}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: 14 }}>
-                        <Chip
-                          color={`${
-                            item.invoiceDetail.deposit ? 'primary' : 'success'
-                          }`}
-                          label={
-                            item.invoiceDetail.deposit
-                              ? 'Đã cọc'
-                              : 'Đã tất toán'
-                          }
-                          sx={{
-                            height: '24px',
-                            width: '100px',
-                            fontSize: 10,
-                            fontWeight: 600,
-                          }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                {paginatedData.map((item: any) => (
+                  <TableRow key={item.id}>
+                    <TableCell sx={{ fontSize: 14 }}>{item?.id}</TableCell>
+                    <TableCell sx={{ fontSize: 14 }}>
+                      {formatDate(item.dateCreated)}
+                    </TableCell>
+                    <TableCell sx={{ fontSize: 14 }}>
+                      {item.amount.toLocaleString()} VND
+                    </TableCell>
+                    <TableCell sx={{ fontSize: 14 }}>
+                      {item.paymentMethod}
+                    </TableCell>
+                    <TableCell sx={{ fontSize: 14 }}>
+                      <Chip
+                        color={`${
+                          item.invoiceDetail.deposit ? 'primary' : 'success'
+                        }`}
+                        label={
+                          item.invoiceDetail.deposit ? 'Đã cọc' : 'Đã tất toán'
+                        }
+                        sx={{
+                          height: '24px',
+                          width: '100px',
+                          fontSize: 10,
+                          fontWeight: 600,
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
+
+          <Box display="flex" justifyContent="center" mt={2}>
+            <Pagination
+              count={Math.ceil(data.length / itemsPerPage)}
+              page={currentPage}
+              onChange={handlePageChange}
+              variant="outlined"
+            />
+          </Box>
         </>
       )}
     </Box>

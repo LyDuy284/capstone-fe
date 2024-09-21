@@ -286,7 +286,9 @@ const BookingHistoryDetail: React.FC = () => {
                 {data &&
                   data?.listBookingDetail.map((detail: any) => (
                     <TableRow key={detail.id}>
-                      <TableCell sx={{ fontSize: 14 }}>{detail?.id}</TableCell>
+                      <TableCell sx={{ fontSize: 14, width: '13%' }}>
+                        {detail?.id}
+                      </TableCell>
                       <TableCell sx={{ fontSize: 14 }}>
                         {detail.serviceSupplier.name}
                       </TableCell>
@@ -338,9 +340,7 @@ const BookingHistoryDetail: React.FC = () => {
                             </>
                           )
                         ) : (
-                          <>
-                            {(detail.price * detail.quantity).toLocaleString()}
-                          </>
+                          <>{detail.price.toLocaleString()}</>
                         )}{' '}
                       </TableCell>
                       <TableCell sx={{ fontSize: 14, textAlign: 'center' }}>
@@ -531,7 +531,15 @@ const BookingHistoryDetail: React.FC = () => {
                     {totalPrice().toLocaleString()} VND
                   </Box>
                 </Typography>
-
+                <Typography my={1} variant="h5">
+                  Đã cọc:{' '}
+                  <Box
+                    component="span"
+                    sx={{ color: 'blue', fontWeight: 'bold' }}
+                  >
+                    {(totalPrice() * 0.2)?.toLocaleString()} VND
+                  </Box>
+                </Typography>
                 <Typography my={1} variant="h5">
                   Còn lại:{' '}
                   <Box
