@@ -22,6 +22,7 @@ import React, {
 import { useLocation, useNavigate } from "react-router";
 import {
   createPost,
+  deleteBlog,
   getAllBlogPosts,
   getBlogById,
   updatePost,
@@ -69,8 +70,17 @@ const StaffManageBlogs: FC<Props> = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleDelete = (id: number) => {
-    console.log(`Delete supplier id: ${id}`);
+  const handleDelete = async (id: number, token: string) => {
+    try {
+      const status = await deleteBlog(id, token);
+      if (status === 'success') {
+        console.log(`Successfully deleted blog with ID: ${id}`);
+      } else {
+        console.log(`Failed to delete blog with ID: ${id}. Status: ${status}`);
+      }
+    } catch (error) {
+      console.error(`Error deleting blog with ID: ${id}`, error);
+    }
   };
 
   const defaultColumns: GridColDef[] = [
@@ -90,6 +100,11 @@ const StaffManageBlogs: FC<Props> = (props) => {
       flex: 1,
     },
     {
+      field: "status",
+      headerName: "Trạng thái",
+      flex: 1,
+    },
+    {
       field: "actions",
       headerName: "Hành động",
       align: "center",
@@ -102,7 +117,7 @@ const StaffManageBlogs: FC<Props> = (props) => {
           </IconButton>
           <IconButton
             aria-label="view"
-            onClick={() => handleDelete(params.row.id)}
+            onClick={() => handleDelete(params.row.id, user?.token)}
           >
             <Delete sx={{ color: "red", fontSize: 18 }} />
           </IconButton>
