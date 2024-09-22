@@ -28,6 +28,7 @@ export const UPDATE_COMBO = '/combo/update';
 export const CREATE_SERVICES = '/service/create';
 export const GET_ALL_SERVICES = '/service/getAllServices';
 export const UPDATE_SERVICE = '/service/update';
+export const DELETE_BLOG = '/blog/delete';
 
 // Promotion
 export const CREATE_PROMOTION = '/promotion/create';

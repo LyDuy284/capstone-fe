@@ -15,6 +15,7 @@ import {
   CREATE_SERVICE,
   CREATE_SERVICE_SUPPLIER,
   CREATE_SERVICES,
+  DELETE_BLOG,
   DISABLED_BY_ADMIN,
   GET_ACTIVE_BLOGS,
   GET_ALL_ACCOUNT_BY_ADMIN,
@@ -1059,6 +1060,29 @@ export const activatedByAdmin = async (id, token) => {
   return data.status;
 };
 
+export const deleteBlog = async (id, token) => {
+  const data = {
+    key: 'value',
+  };
+  fetch(
+    'https://thedaywedding-hkaybdgafndhecbn.southeastasia-01.azurewebsites.net' +
+      DELETE_BLOG +
+      `?id=${id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => console.log(data.status))
+    .catch((error) => console.error('Error:', error));
+  return data.status;
+};
+
 export const disabledByAdmin = async (id, token): Promise<string> => {
   const headers = {
     'Content-Type': 'application/json',
@@ -1146,4 +1170,5 @@ export const getTransactionSummaryStatistic = async (year, token) => {
   } catch (error) {
     return error;
   }
+
 };
