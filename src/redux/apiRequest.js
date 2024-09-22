@@ -631,7 +631,7 @@ export const getBookingByAdmin = async (token) => {
   };
   try {
     const res = await axios.get(
-      GET_BY_ADMIN + '?isAscending=true&pageNo=0&pageSize=10&sortBy=id',
+      GET_BY_ADMIN + '?isAscending=true&pageNo=0&pageSize=100&sortBy=id',
       {
         headers: headers,
       }
@@ -664,7 +664,7 @@ export const getBookingById = async (id, token) => {
       Authorization: `Bearer ${token}`,
     };
     const res = await axios.get(
-      GET_BY_ADMIN + '?isAscending=true&pageNo=0&pageSize=100&sortBy=id',
+        GET_BOOKING_BY_ID + `?id=${id}`,
       {
         headers: headers,
       }
