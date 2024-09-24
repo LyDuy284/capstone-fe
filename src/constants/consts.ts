@@ -36,6 +36,12 @@ export const COMBO_STATUS = {
   DISABLED: 'Vô hiệu hóa',
 };
 
+export const TRANSACTION_STATUS = {
+  COMPLETED: 'COMPLETED',
+  PROCESSING: 'PROCESSING',
+  OVERDUE: 'OVERDUE',
+};
+
 export const PROMOTION_TYPE_MONEY = {
   id: 'MONEY',
   name: 'Tiền',

@@ -19,6 +19,17 @@ import { getTransactionHistoryByCoupleId } from '../../../redux/apiRequest';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
+import { COMBO_STATUS, TRANSACTION_STATUS } from '../../../constants/consts';
+
+const convertStatusName = (status: string) => {
+  switch (status) {
+      case TRANSACTION_STATUS.COMPLETED:
+          return "Dã thanh toán"
+      case TRANSACTION_STATUS.PROCESSING:
+          return "Đang đợi"
+      default: return "Quá hạn"
+  }
+}
 
 const TransactionHistory: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -172,6 +183,15 @@ const TransactionHistory: React.FC = () => {
                       fontWeight: 600,
                     }}
                   >
+                    Hình thức
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontSize: 16,
+                      color: 'var(--primary-color)',
+                      fontWeight: 600,
+                    }}
+                  >
                     Trạng thái
                   </TableCell>
                 </TableRow>
@@ -195,7 +215,7 @@ const TransactionHistory: React.FC = () => {
                           item.invoiceDetail.deposit ? 'primary' : 'success'
                         }`}
                         label={
-                          item.invoiceDetail.deposit ? 'Đã cọc' : 'Đã tất toán'
+                          item.invoiceDetail.deposit ? 'Cọc' : 'Tất toán'
                         }
                         sx={{
                           height: '24px',
@@ -204,6 +224,9 @@ const TransactionHistory: React.FC = () => {
                           fontWeight: 600,
                         }}
                       />
+                    </TableCell>
+                    <TableCell sx={{ fontSize: 14 }}>
+                    {convertStatusName(item.status)}
                     </TableCell>
                   </TableRow>
                 ))}
