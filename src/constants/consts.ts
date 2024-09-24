@@ -31,6 +31,11 @@ export const PROCESS_STATUS_VN = {
   canceled: 'Đã hủy',
 };
 
+export const COMBO_STATUS = {
+  ACTIVATED: 'Hoạt động',
+  DISABLED: 'Vô hiệu hóa',
+};
+
 export const PROMOTION_TYPE_MONEY = {
   id: 'MONEY',
   name: 'Tiền',

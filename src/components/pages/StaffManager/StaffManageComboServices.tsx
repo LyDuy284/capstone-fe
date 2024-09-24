@@ -23,7 +23,9 @@ import React, {
 } from "react";
 import { useLocation, useNavigate } from "react-router";
 import {
+  activatedCombo,
   createCombo,
+  disabledCombo,
   getAllComboById,
   getComboFilters,
   getListCombo,
@@ -35,7 +37,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { ComboCreate, ComboUpdate } from "../../../types/entity/Entity";
 import { ServiceDetail } from "../../../types/schema/service";
-import { PROCESS_STATUS_VN, STATUS } from "../../../constants/consts";
+import { COMBO_STATUS, PROCESS_STATUS_VN, STATUS } from "../../../constants/consts";
 
 import { ServiceSupplierItem } from "../../../types/schema/serviceSupplier";
 import { log } from "console";
@@ -81,6 +83,25 @@ const StaffManageComboServices: FC<Props> = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  
+  const updateStatus = async (id: string, currentStatus: string, token: string): Promise<string> => {
+    try {
+      let newStatus;
+      if (currentStatus === STATUS.active) {
+        newStatus = await disabledCombo(id, token);
+      } else {
+        newStatus = await activatedCombo(id, token);
+      }
+  
+      console.log("New Status:", newStatus);
+      
+      return newStatus;
+    } catch (error: any) { 
+      console.error("Error updating status:", error);
+      return error.message || "Unknown error occurred";
+    }
+  };
+
   const defaultColumns: GridColDef[] = [
     {
       field: "id",
@@ -107,8 +128,8 @@ const StaffManageComboServices: FC<Props> = (props) => {
         params.value === STATUS.active ? (
           <Chip
             onClick={() => {
-              setIsEdit(true);
-              update(params.row.id)}}
+              setIsEdit(true); 
+              updateStatus(params.row.id, STATUS.active, user?.token)}}
             label={PROCESS_STATUS_VN.active}
             sx={{
               height: "24px",
@@ -121,7 +142,13 @@ const StaffManageComboServices: FC<Props> = (props) => {
           />
         ) : (
           <Chip
-            label={STATUS.disabled}
+          onClick={() => {
+            setIsEdit(true);
+            updateStatus(params.row.id, STATUS.disabled, user?.token)
+            console.log("Token: ", user?.token);
+            
+          }}
+            label={COMBO_STATUS.DISABLED}
             sx={{
               height: "24px",
               width: "80px",

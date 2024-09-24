@@ -29,6 +29,8 @@ export const CREATE_SERVICES = '/service/create';
 export const GET_ALL_SERVICES = '/service/getAllServices';
 export const UPDATE_SERVICE = '/service/update';
 export const DELETE_BLOG = '/blog/delete';
+export const DISABLE_COMBO = '/combo/disable';
+export const ACTIVATE_COMBO = '/combo/active';
 
 // Promotion
 export const CREATE_PROMOTION = '/promotion/create';
