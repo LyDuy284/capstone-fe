@@ -196,13 +196,52 @@ const BookingList: FC<Props> = (props) => {
                 price: currencyMaskString(parseInt(`${item.price}`)),
                 note: item.note,
                 status: convertStatusName(`${item.status}`),
+                statusCode: item.status
             })) : [];
 
             const columns: GridColDef[] = [
                 { field: "name", headerName: "Tên dịch vụ", flex: 1.2 },
                 { field: "price", headerName: "Giá tiền", flex: 0.5 },
                 { field: "completedDate", headerName: "Hoàn thành", flex: 0.5 },
-                { field: "status", headerName: "Trạng thái", flex: 0.5 },
+                {
+                    field: 'status',
+                    headerName: 'Trạng thái',
+                    flex: 0.5,
+                    width: 170,
+                    renderCell: (params) => {
+                        let color = '';
+                        switch (params.row.statusCode) {
+                            case "PENDING":
+                                color = "#ffa500"
+                                break;
+                            case "APPROVED":
+                                color = "#0000ff"
+                                break;
+                            case "DEPOSITED":
+                                color = "#800080"
+                                break;
+                            case "REJECTED":
+                            case "CANCELED":
+                                color = "#a82f28"
+                                break;
+                            case "PROCESSING":
+                                color = "#fbc02d"
+                                break;
+                            case "COMPLETED":
+                                color = "#43a047"
+                                break;
+                            default:
+                                color = "#afb42b"
+                                break;
+                        }
+
+                        return (
+                            <span style={{ color }}>
+                                {params.value}
+                            </span>
+                        );
+                    }
+                },
                 {
                     field: 'note',
                     headerName: 'Ghi chú',

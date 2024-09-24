@@ -51,6 +51,22 @@
     padding: 8px 8px 17px !important;
 }
 
+#Services .refresh-btn {
+    text-transform: none;
+    display: flex;
+    align-items: center;
+    float: right;
+    background-color: #4C3E3E;
+    font-size: 1.2rem;
+    color: #DDC48E;
+    margin-bottom: 12px;
+}
+
+#Services .refresh-btn:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
 .create-container {
     width: 100%;
     display: flex;
