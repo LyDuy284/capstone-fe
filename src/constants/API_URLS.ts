@@ -62,6 +62,8 @@ export const CREATE_SERVICE = '/service/create';
 export const GET_SERVICE_BY_CATEGORY_ID = '/service/getByCategory';
 
 // Service Supplier
+export const ACTIVATED_SERVICE_SUPPLIER = '/service-supplier/activate';
+export const DISABLED_SERVICE_SUPPLIER = '/service-supplier/disable';
 export const CREATE_SERVICE_SUPPLIER = '/service-supplier/create';
 export const UPDATE_SERVICE_SUPPLIER = '/service-supplier/update';
 export const GET_SERVICE_SUPPLIER_FILTER = '/service-supplier/filter';

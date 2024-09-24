@@ -7,6 +7,7 @@ import {
   ACCOUNT_REGISTER_SUPPLIER,
   ACTIVATE_COMBO,
   ACTIVATED_BY_ADMIN,
+  ACTIVATED_SERVICE_SUPPLIER,
   CANCEL_BOOKING,
   CHECK_EXIST_EMAIL,
   CREATE_CATEGORY,
@@ -19,6 +20,7 @@ import {
   DELETE_BLOG,
   DISABLE_COMBO,
   DISABLED_BY_ADMIN,
+  DISABLED_SERVICE_SUPPLIER,
   GET_ACTIVE_BLOGS,
   GET_ALL_ACCOUNT_BY_ADMIN,
   GET_ALL_ACCOUNT_BY_ROLE,
@@ -479,6 +481,53 @@ export const createCategory = async (name, token) => {
 };
 
 // Service Supplier
+
+export const activatedServiceSupplier = async (id, token): Promise<string> =>{
+  const data = {
+    key: 'value',
+  };
+  fetch(
+    'https://thedaywedding-hkaybdgafndhecbn.southeastasia-01.azurewebsites.net' +
+      ACTIVATED_SERVICE_SUPPLIER +
+      `?id=${id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => console.log(data.status))
+    .catch((error) => console.error('Error:', error));
+  return data.status;
+};
+
+export const disabledServiceSupplier = async (id, token): Promise<string> => {
+  const data = {
+    key: 'value',
+  };
+  fetch(
+    'https://thedaywedding-hkaybdgafndhecbn.southeastasia-01.azurewebsites.net' +
+      DISABLED_SERVICE_SUPPLIER +
+      `?id=${id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => console.log(data.status))
+    .catch((error) => console.error('Error:', error));
+  return data.status;
+};
+
 export const createServiceSupplier = async (
   newService,
   token,
@@ -523,12 +572,13 @@ export const getServicesSupplierFilter = async (
   supplierId = '',
   categoryId = '',
   serviceId = '',
+  status = '',
   segmentId = ''
 ) => {
   try {
     const res = await axios.get(
       GET_SERVICE_SUPPLIER_FILTER +
-        `?categoryId=${categoryId}&maxPrice=0&minPrice=0&serviceId=${serviceId}&supplierId=${supplierId}&type=${segmentId}`
+        `?categoryId=${categoryId}&maxPrice=0&minPrice=0&serviceId=${serviceId}&status=${status}&supplierId=${supplierId}&type=${segmentId}`
     );
     return res.data.data;
   } catch (error) {

@@ -6,16 +6,17 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router';
-import { Box, Button, CircularProgress, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, FormControl, InputLabel, MenuItem, Modal, Select, Switch, Typography } from '@mui/material';
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { ALL_SELECT, ECONOMY_SEGMENT, LUXURY_SEGMENT } from '../../../constants/consts';
-import { createServiceSupplier, getListCategories, getPromotionBySupplier, getServicesByCategoryId, getServicesSupplierFilter } from '../../../redux/apiRequest';
+import { activatedServiceSupplier, createServiceSupplier, disabledServiceSupplier, getListCategories, getPromotionBySupplier, getServicesByCategoryId, getServicesSupplierFilter } from '../../../redux/apiRequest';
 import { CategoryItem } from '../../../types/schema/category';
 import { useDispatch, useSelector } from 'react-redux';
 import { PromotionItem } from '../../../types/schema/promotion';
 import { ServiceSupplierItem } from '../../../types/schema/serviceSupplier';
 import { ServiceItem } from '../../../types/schema/service';
 import { currencyMask, currencyMaskString, currencyToNumber } from '../../../constants/convert';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 interface Props {
     setMessageStatus: Dispatch<SetStateAction<string>>;
@@ -45,6 +46,19 @@ const defaultValuePromotion: PromotionItem = {
     type: ''
 }
 
+const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    textAlign: 'center'
+};
+
 const Services: FC<Props> = (props) => {
     const user = useSelector((state: any) => state.auth.login.currentUser);
     const [serviceSupplierList, setServiceSupplierList] = useState<ServiceSupplierItem[]>([]);
@@ -53,6 +67,13 @@ const Services: FC<Props> = (props) => {
     const [category, setCategory] = useState<CategoryItem>(defaultValueCategory);
     const [categoriesCreate, setCategoriesCreate] = useState<CategoryItem[]>([]);
     const [categoryCreate, setCategoryCreate] = useState<CategoryItem>(defaultValueCategory);
+    const [statusSelected, setStatusSelected] = useState('all');
+
+    const [selectedId, setSelectedId] = useState('');
+    const [selectedStatus, setSelectedStatus] = useState(false);
+    const [openStatus, setOpenStatus] = useState(false);
+    const handleOpenStatus = () => setOpenStatus(true);
+    const handleCloseStatus = () => setOpenStatus(false);
 
     const defaultValueService: ServiceItem = {
         id: 'all',
@@ -76,6 +97,8 @@ const Services: FC<Props> = (props) => {
     const [description, setDescription] = useState<string>('');
     const [price, setPrice] = useState<string>('0');
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const [switchStates, setSwitchStates] = useState<Record<string, boolean>>({});
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -103,7 +126,7 @@ const Services: FC<Props> = (props) => {
 
     useEffect(() => {
         fetchData();
-    }, [category, service, segment])
+    }, [category, service, segment, statusSelected])
 
     useEffect(() => {
         fetchCategoriesCreate();
@@ -118,13 +141,18 @@ const Services: FC<Props> = (props) => {
         const categoryId = category?.id !== 'all' ? `${category?.id}` : undefined;
         const serviceId = service?.id !== 'all' ? `${service?.id}` : undefined;
         const segmentId = segment?.id;
-        const response = await getServicesSupplierFilter(user?.userId, categoryId, serviceId, (segmentId == ALL_SELECT?.id) ? undefined : segmentId);
+        const status = statusSelected !== 'all' ? statusSelected : undefined;
+        const response = await getServicesSupplierFilter(user?.userId, categoryId, serviceId, status, (segmentId == ALL_SELECT?.id) ? undefined : segmentId);
         if (response) {
             setServiceSupplierList(response);
         } else {
             setServiceSupplierList([]);
         }
         setIsLoading(false);
+    }
+
+    async function filterStatus(event: string) {
+        setStatusSelected(event);
     }
 
     async function getServicesCreate() {
@@ -272,26 +300,74 @@ const Services: FC<Props> = (props) => {
         }
     }
 
+    const handleChange = (id: string, event: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedId(id);
+        setSelectedStatus(event.target.checked);
+        handleOpenStatus();
+    };
+
+    async function handleConfirmChange(newChecked: boolean) {
+        if (selectedId) {
+            const userConfirmed = window.confirm("Bạn có muốn thay đổi trạng thái?");
+            if (userConfirmed) {
+                try {
+                    let response = null;
+                    if (selectedStatus) {
+                        response = await activatedServiceSupplier(selectedId, user?.token);
+                    } else {
+                        response = await disabledServiceSupplier(selectedId, user?.token);
+                    }
+                    props.setMessage("Cập nhật trạng thái thành công");
+                    props.setMessageStatus("green");
+                    await fetchData();
+                } catch (error) {
+                    props.setMessage("Có lỗi xảy ra");
+                    props.setMessageStatus("red");
+                } finally {
+                    setOpenStatus(false);
+                }
+            } else {
+                // Revert switch state
+                setSwitchStates(prevStates => ({
+                    ...prevStates,
+                    [selectedId]: !newChecked
+                }));
+                setOpenStatus(false);
+            }
+        }
+    }
+
     const rows = serviceSupplierList?.length > 0 ? serviceSupplierList.map((service) => ({
         id: parseInt(`${service.id.split('SERVICE-SUPPLIER-')[1]}`),
-        // category: service?.categoryResponse?.categoryName,
+        idSelected: service.id,
         name: service?.name,
         rating: service?.rating,
-        // promotion: (service?.promotionService) ? service?.promotionService.percent + "%" : "",
         createAt: service?.createAt,
         price: currencyMaskString(parseInt(`${service?.price}`)),
-        type: service?.type,
+        type: service?.type == ECONOMY_SEGMENT.id ? ECONOMY_SEGMENT.name : LUXURY_SEGMENT.name,
         status: service?.status,
         promotionName: service?.promotion?.name
     })) : [];
 
     const columns: GridColDef[] = [
         { field: "id", headerName: "ID", flex: 0.2 },
-        { field: "name", headerName: "Tên", flex: 1.8 },
+        { field: "name", headerName: "Tên", flex: 1.6 },
         { field: "price", headerName: "Giá", flex: 0.5 },
         { field: "promotionName", headerName: "Giảm giá", flex: 0.5 },
         { field: "rating", headerName: "Đánh giá", flex: 0.3 },
-        { field: "type", headerName: "Phân khúc", flex: 0.4 },
+        { field: "type", headerName: "Phân khúc", flex: 0.5 },
+        {
+            field: 'status',
+            headerName: 'Trạng thái',
+            flex: 0.4,
+            width: 170,
+            renderCell: (params) => (
+                <Switch
+                    onChange={(event) => handleChange(params.row.idSelected, event)}
+                    checked={switchStates[params.row.idSelected] || params.row.status === "ACTIVATED"}
+                />
+            ),
+        },
         { field: "createAt", headerName: "Ngày tạo", flex: 0.7 },
         {
             field: '',
@@ -306,6 +382,10 @@ const Services: FC<Props> = (props) => {
             ),
         }
     ];
+
+    const handleRefresh = () => {
+        fetchData();
+    }
 
     return (
         <div id="Services">
@@ -371,9 +451,30 @@ const Services: FC<Props> = (props) => {
                             </Select>
                         </FormControl>
                         <div className="divide-right"></div>
+                        <span className='label-select'>TRẠNG THÁI:</span>
+                        <FormControl className="select-box form-input mr-24">
+                            <Select
+                                className="input regis-input"
+                                id="demo-simple-select"
+                                value={statusSelected}
+                                onChange={(event) => { filterStatus(event.target.value) }}
+                            >
+                                <MenuItem className="menu-select-item" value="all" key={1}>
+                                    TẤT CẢ
+                                </MenuItem>
+                                <MenuItem className="menu-select-item" value="ACTIVATED" key={2}>
+                                    ĐANG HOẠT ĐỘNG
+                                </MenuItem>
+                                <MenuItem className="menu-select-item" value="DISABLED" key={3}>
+                                    NGỪNG KINH DOANH
+                                </MenuItem>
+                            </Select>
+                        </FormControl>
+                        <div className="divide-right"></div>
                         <Button className="btn-create-service" onClick={() => { handleOpen() }}>TẠO MỚI</Button>
                     </div>
                 </div>
+                <Button className="refresh-btn" onClick={handleRefresh}><RefreshIcon />Làm mới</Button>
                 {isLoading && (
                     <div className="w-full flex items-center justify-center h-[70vh]">
                         <CircularProgress />
@@ -382,17 +483,37 @@ const Services: FC<Props> = (props) => {
 
                 {
                     !isLoading && (
-                        <div className="table" style={{ height: 400, width: "100%" }}>
-                            <DataGrid rows={rows}
-                                columns={columns}
-                                autoPageSize
-                                pagination
-                                sx={{
-                                    '& .MuiDataGrid-columnHeaderTitle': {
-                                        color: 'var(--primary-color)',
-                                    },
-                                }} />
-                        </div>
+                        <>
+                            <div className="table" style={{ height: 400, width: "100%" }}>
+                                <DataGrid rows={rows}
+                                    columns={columns}
+                                    autoPageSize
+                                    pagination
+                                    sx={{
+                                        '& .MuiDataGrid-columnHeaderTitle': {
+                                            color: 'var(--primary-color)',
+                                        },
+                                    }} />
+                            </div>
+                            <Modal
+                                keepMounted
+                                open={openStatus}
+                                onClose={handleCloseStatus}
+                                aria-labelledby="keep-mounted-modal-title"
+                                aria-describedby="keep-mounted-modal-description"
+                            >
+                                <Box sx={style}>
+                                    <Typography id="keep-mounted-modal-title" variant="h6" component="h2" style={{ color: "var(--primary-color)", fontSize: "1.8rem" }}>
+                                        Xác nhận thay đổi trạng thái
+                                    </Typography>
+                                    <Typography id="keep-mounted-modal-description" sx={{ mt: 2, mb: 2, fontSize: "1.2rem" }}>
+                                        Bạn có muốn thay đổi trạng thái?
+                                    </Typography>
+                                    <Button onClick={() => handleConfirmChange(true)}>Yes</Button>
+                                    <Button onClick={() => handleConfirmChange(false)}>No</Button>
+                                </Box>
+                            </Modal>
+                        </>
                     )
                 }
             </>
