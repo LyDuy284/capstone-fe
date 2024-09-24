@@ -79,6 +79,17 @@ const StaffManageServices: FC<Props> = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const handleSelectCategory = (value: CategoryItem | null) => {
+    if (value) {
+        const selectedID = value.id; 
+        setSelected(selectedID);
+        console.log(selectedID);
+        
+    } else {
+        console.error("No valid category item selected");
+    }
+};
+
   const defaultColumns: GridColDef[] = [
     {
       field: "id",
@@ -180,7 +191,7 @@ const StaffManageServices: FC<Props> = (props) => {
         getImagesPayload += image + "\n, ";
       });
       const newServices: ServicesCreate = {
-        categoryId: `${selected}`,
+        categoryId: selected,
         description: content,
         images: getImagesPayload,
         name: serviceTitle,
@@ -265,12 +276,14 @@ const StaffManageServices: FC<Props> = (props) => {
               <Autocomplete
               disablePortal
               id="category"
-              options={categories.map((option) => option.id)}
+              options= {categories}
+              getOptionLabel={(option: CategoryItem): any => option.categoryName}
               sx={{ width: 300 }}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
               renderInput={(params) => (
                 <TextField {...params} label="Lựa chọn category" />
               )}
-              onChange={(event, value: any) => setSelected(value)}
+              onChange={(event, value: any) => handleSelectCategory(value)}
             />
             </>
               ) : null

@@ -1,5 +1,5 @@
 export interface CategoryItem {
-  id: String;
+  id: string;
   categoryName: string;
   status: string;
 }
