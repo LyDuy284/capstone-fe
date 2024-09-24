@@ -5,6 +5,7 @@ import {
   ACCOUNT_REGISTER_COUPLE,
   ACCOUNT_REGISTER_STAFF,
   ACCOUNT_REGISTER_SUPPLIER,
+  ACTIVATE_COMBO,
   ACTIVATED_BY_ADMIN,
   CANCEL_BOOKING,
   CHECK_EXIST_EMAIL,
@@ -16,6 +17,7 @@ import {
   CREATE_SERVICE_SUPPLIER,
   CREATE_SERVICES,
   DELETE_BLOG,
+  DISABLE_COMBO,
   DISABLED_BY_ADMIN,
   GET_ACTIVE_BLOGS,
   GET_ALL_ACCOUNT_BY_ADMIN,
@@ -1096,6 +1098,52 @@ export const disabledByAdmin = async (id, token): Promise<string> => {
   } catch (error) {
     return error.response.data.message;
   }
+};
+
+export const activatedCombo = async (id, token) => {
+  const data = {
+    key: 'value',
+  };
+  fetch(
+    'https://thedaywedding-hkaybdgafndhecbn.southeastasia-01.azurewebsites.net' +
+      ACTIVATE_COMBO +
+      `?id=${id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => console.log(data.status))
+    .catch((error) => console.error('Error:', error));
+  return data.status;
+};
+
+export const disabledCombo = async (id, token): Promise<string> => {
+  const data = {
+    key: 'value',
+  };
+  fetch(
+    'https://thedaywedding-hkaybdgafndhecbn.southeastasia-01.azurewebsites.net' +
+      DISABLE_COMBO +
+      `?id=${id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => console.log(data.status))
+    .catch((error) => console.error('Error:', error));
+  return data.status;
 };
 
 export const getAllAccountByRole = async (role, token) => {
