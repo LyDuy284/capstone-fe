@@ -74,7 +74,7 @@ const StaffManageComboServices: FC<Props> = (props) => {
   const [open, setOpen] = React.useState(false);
   const [serviceSupplier, setServiceSupplier] = useState<ServiceSupplierItem[]>([]);
   const [comboTitle, setComboTitle] = useState<string>("");
-  const [selected, setSelected] = useState<string>("");
+  const [selected, setSelected] = useState<String[]>([]);
   const [content, setContent] = useState<string>("");
   const handleClose = () => setOpen(false);
   const [images, setImages] = useState<string[]>([]);
@@ -205,6 +205,10 @@ const StaffManageComboServices: FC<Props> = (props) => {
     
   };
   
+  const handleSelectServiceSupplier = (value: ServiceSupplierItem[]) => {
+    const selectedIDs = value.map(item => item.id);
+    setSelected(selectedIDs);
+  }
   
   const create = () => {
     tittleChange("Tạo mới Combo");
@@ -282,7 +286,7 @@ const StaffManageComboServices: FC<Props> = (props) => {
         const newCombo: ComboCreate = {
           description: content,
           images: getImagesPayload,
-          listServiceSupplierId: [`${selected}`],
+          listServiceSupplierId: selected,
           name: comboTitle,
           staffId: user?.userId,
         };
@@ -343,13 +347,15 @@ const StaffManageComboServices: FC<Props> = (props) => {
                 <Autocomplete
                   disablePortal
                   id="serviceSupplier"
-                  options={serviceSupplier.map((option) => option.id)}
+                  options={serviceSupplier}
+                  getOptionLabel={(option: ServiceSupplierItem): any => option.name} // Display name in the dropdown
                   sx={{ width: 300 }}
+                  isOptionEqualToValue={(option, value) => option.id === value.id} 
                   multiple
                   renderInput={(params) => (
-                    <TextField {...params} label="Lựa chọn ServiceSupplies" />
+                      <TextField {...params} label="Lựa chọn ServiceSupplies" />
                   )}
-                  onChange={(event, value: any) => setSelected(value)}
+                  onChange={(event, value: any) => handleSelectServiceSupplier(value)} // Pass the full object
                 />
                 </>
               ) : null
