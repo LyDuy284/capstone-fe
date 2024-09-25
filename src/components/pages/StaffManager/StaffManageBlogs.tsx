@@ -102,7 +102,7 @@ const StaffManageBlogs: FC<Props> = (props) => {
       flex: 1,
     },
     {
-      field: '"status"',
+      field: "status",
       headerName: "Trạng thái",
       flex: 1,
     },
