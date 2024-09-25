@@ -73,10 +73,12 @@ const StaffManageBlogs: FC<Props> = (props) => {
   const handleDelete = async (id: number, token: string) => {
     try {
       const status = await deleteBlog(id, token);
-      if (status === 'success') {
-        console.log(`Successfully deleted blog with ID: ${id}`);
+      if (status === "SUCCESS") {
+        props.setMessageStatus("green");
+        props.setMessage("Cập nhật thành công");
       } else {
-        console.log(`Failed to delete blog with ID: ${id}. Status: ${status}`);
+        props.setMessageStatus("red");
+        props.setMessage(status);
       }
     } catch (error) {
       console.error(`Error deleting blog with ID: ${id}`, error);
@@ -100,7 +102,7 @@ const StaffManageBlogs: FC<Props> = (props) => {
       flex: 1,
     },
     {
-      field: "status",
+      field: '"status"',
       headerName: "Trạng thái",
       flex: 1,
     },

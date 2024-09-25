@@ -1116,23 +1116,30 @@ export const deleteBlog = async (id, token) => {
   const data = {
     key: 'value',
   };
-  fetch(
-    'https://thedaywedding-hkaybdgafndhecbn.southeastasia-01.azurewebsites.net' +
-      DELETE_BLOG +
-      `?id=${id}`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    }
-  )
-    .then((response) => response.json())
-    .then((data) => console.log(data.status))
-    .catch((error) => console.error('Error:', error));
-  return data.status;
+
+  try {
+    const response = await fetch(
+      'https://thedaywedding-hkaybdgafndhecbn.southeastasia-01.azurewebsites.net' +
+        DELETE_BLOG +
+        `?id=${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    
+    const result = await response.json();
+    console.log(result.status); // You can see "SUCCESS" here
+
+    return result.status; // Return the actual status after fetch is done
+  } catch (error) {
+    console.error('Error:', error);
+    return 'ERROR'; // Return a fallback error status in case of failure
+  }
 };
 
 export const disabledByAdmin = async (id, token): Promise<string> => {
@@ -1154,46 +1161,61 @@ export const activatedCombo = async (id, token) => {
   const data = {
     key: 'value',
   };
-  fetch(
-    'https://thedaywedding-hkaybdgafndhecbn.southeastasia-01.azurewebsites.net' +
-      ACTIVATE_COMBO +
-      `?id=${id}`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    }
-  )
-    .then((response) => response.json())
-    .then((data) => console.log(data.status))
-    .catch((error) => console.error('Error:', error));
-  return data.status;
-};
+
+  try {
+    const response = await fetch(
+      'https://thedaywedding-hkaybdgafndhecbn.southeastasia-01.azurewebsites.net' +
+        ACTIVATE_COMBO +
+        `?id=${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    
+    const result = await response.json();
+    console.log(result.status); // You can see "SUCCESS" here
+
+    return result.status; // Return the actual status after fetch is done
+  } catch (error) {
+    console.error('Error:', error);
+    return 'ERROR'; // Return a fallback error status in case of failure
+  }
+} 
+
 
 export const disabledCombo = async (id, token): Promise<string> => {
   const data = {
     key: 'value',
   };
-  fetch(
-    'https://thedaywedding-hkaybdgafndhecbn.southeastasia-01.azurewebsites.net' +
-      DISABLE_COMBO +
-      `?id=${id}`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    }
-  )
-    .then((response) => response.json())
-    .then((data) => console.log(data.status))
-    .catch((error) => console.error('Error:', error));
-  return data.status;
+
+  try {
+    const response = await fetch(
+      'https://thedaywedding-hkaybdgafndhecbn.southeastasia-01.azurewebsites.net' +
+        DISABLE_COMBO +
+        `?id=${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    
+    const result = await response.json();
+    console.log(result.status); // You can see "SUCCESS" here
+
+    return result.status; // Return the actual status after fetch is done
+  } catch (error) {
+    console.error('Error:', error);
+    return 'ERROR'; // Return a fallback error status in case of failure
+  }
 };
 
 export const getAllAccountByRole = async (role, token) => {
