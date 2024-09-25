@@ -321,22 +321,20 @@ const BookingHistoryDetail: React.FC = () => {
                         {detail.promotionServiceSupplier ? (
                           detail.promotionServiceSupplier?.type === 'MONEY' ? (
                             <>
-                              {(
+                              {/* {(
                                 (detail.price -
                                   detail.promotionServiceSupplier?.value) *
                                 detail.quantity
+                              ).toLocaleString()} */}
+                              {(
+                                (detail.price)
                               ).toLocaleString()}
                             </>
                           ) : (
                             <>
                               {(
-                                (detail.price -
-                                  (detail.price *
-                                    (detail.promotionServiceSupplier?.value ??
-                                      0)) /
-                                    100) *
-                                detail.quantity
-                              ).toLocaleString()}{' '}
+                                (detail.price)
+                              ).toLocaleString()}
                             </>
                           )
                         ) : (
