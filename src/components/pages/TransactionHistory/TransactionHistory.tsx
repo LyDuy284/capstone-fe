@@ -23,13 +23,14 @@ import { COMBO_STATUS, TRANSACTION_STATUS } from '../../../constants/consts';
 
 const convertStatusName = (status: string) => {
   switch (status) {
-      case TRANSACTION_STATUS.COMPLETED:
-          return "Dã thanh toán"
-      case TRANSACTION_STATUS.PROCESSING:
-          return "Đang đợi"
-      default: return "Quá hạn"
+    case TRANSACTION_STATUS.COMPLETED:
+      return { label: "Đã thanh toán", color: "green" };
+    case TRANSACTION_STATUS.PROCESSING:
+      return { label: "Đang đợi", color: "orange" };
+    default:
+      return { label: "Quá hạn", color: "red" };
   }
-}
+};
 
 const TransactionHistory: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -225,8 +226,8 @@ const TransactionHistory: React.FC = () => {
                         }}
                       />
                     </TableCell>
-                    <TableCell sx={{ fontSize: 14 }}>
-                    {convertStatusName(item.status)}
+                    <TableCell sx={{ fontSize: 14, color: convertStatusName(item.status).color }}>
+                          {convertStatusName(item.status).label}
                     </TableCell>
                   </TableRow>
                 ))}
