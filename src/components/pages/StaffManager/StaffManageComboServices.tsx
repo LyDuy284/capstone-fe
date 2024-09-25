@@ -89,11 +89,18 @@ const StaffManageComboServices: FC<Props> = (props) => {
       let newStatus;
       if (currentStatus === STATUS.active) {
         newStatus = await disabledCombo(id, token);
+        console.log("New Status:", newStatus);
       } else {
         newStatus = await activatedCombo(id, token);
       }
-  
-      console.log("New Status:", newStatus);
+      if (newStatus === "SUCCESS") {
+        props.setMessageStatus("green");
+        props.setMessage("Cập nhật thành công");
+      } else {
+        props.setMessageStatus("red");
+        props.setMessage(newStatus);
+      }
+      
       
       return newStatus;
     } catch (error: any) { 
