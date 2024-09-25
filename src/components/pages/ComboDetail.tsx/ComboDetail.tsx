@@ -66,6 +66,7 @@ const ComboDetail = () => {
                     price={item.price}
                     suplierID={item.id}
                     categoryId={categories[index]}
+                    status={item.status}
                   />
                 );
               })}

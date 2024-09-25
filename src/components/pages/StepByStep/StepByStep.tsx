@@ -51,6 +51,7 @@ const StepByStep = () => {
   const [type, setType] = useState('');
   const [priceRange, setPriceRange] = useState('');
   const [service, setService] = useState('');
+  const [status, setStatus] = useState('');
 
   const getServices = async (categoryID: string) => {
     setLoading(true);
@@ -62,7 +63,8 @@ const StepByStep = () => {
     categoryID: string,
     type: string,
     priceRange: string,
-    serviceID: string
+    serviceID: string,
+    status: string
   ) => {
     // Convert price range to minPrice and maxPrice
     setLoading(true);
@@ -100,7 +102,8 @@ const StepByStep = () => {
       minPrice,
       maxPrice,
       type,
-      serviceID
+      serviceID,
+      status
     );
     setSelectedServiceList(response);
     setLoading(false);
@@ -108,7 +111,7 @@ const StepByStep = () => {
 
   useEffect(() => {
     getServices(services[selectedTab]?.id ?? '');
-    getSelectedServiceList(services[selectedTab]?.id ?? '', '', '', '');
+    getSelectedServiceList(services[selectedTab]?.id ?? '', '', '', '', '');
   }, [selectedTab]);
 
   // Handle page change
@@ -128,7 +131,8 @@ const StepByStep = () => {
       services[selectedTab]?.id ?? '',
       newType,
       priceRange,
-      service
+      service,
+      status
     );
   };
   const handleServiceChange = (event: any) => {
@@ -139,7 +143,8 @@ const StepByStep = () => {
       services[selectedTab]?.id ?? '',
       type,
       priceRange,
-      newService
+      newService,
+      status
     );
   };
 
@@ -152,7 +157,20 @@ const StepByStep = () => {
       services[selectedTab]?.id ?? '',
       type,
       newPriceRange,
-      service
+      service,
+      status
+    );
+  };
+  const handleStatusChange = (event: any) => {
+    setCurrentPage(1);
+    const newStatus = event.target.value;
+    setStatus(newStatus);
+    getSelectedServiceList(
+      services[selectedTab]?.id ?? '',
+      type,
+      priceRange,
+      service,
+      newStatus
     );
   };
   // Paginate items
@@ -166,7 +184,7 @@ const StepByStep = () => {
     setPriceRange('');
     setService('');
     setCurrentPage(1);
-    getSelectedServiceList(services[selectedTab]?.id ?? '', '', '', '');
+    getSelectedServiceList(services[selectedTab]?.id ?? '', '', '', '', '');
   };
   return (
     <Box sx={{ marginX: 20 }}>
@@ -217,6 +235,32 @@ const StepByStep = () => {
 
           <div className="content-step">
             <aside className="aside-bar">
+              <div className="filter-component">
+                <legend className="filter-name">Trạng thái</legend>
+                <ul className="filter-list">
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    value={status}
+                    onChange={handleStatusChange}
+                    name="radio-buttons-group"
+                  >
+                    <li className="filter-item">
+                      <Radio
+                        sx={{ '& .MuiSvgIcon-root': { fontSize: 18 } }}
+                        value="ACTIVATED"
+                      />
+                      Hoạt động
+                    </li>
+                    <li className="filter-item">
+                      <Radio
+                        sx={{ '& .MuiSvgIcon-root': { fontSize: 18 } }}
+                        value="DISABLED"
+                      />
+                      Ngừng kinh doanh
+                    </li>
+                  </RadioGroup>
+                </ul>
+              </div>
               <div className="filter-component">
                 <legend className="filter-name">Phân cấp</legend>
                 <ul className="filter-list">
@@ -359,6 +403,7 @@ const StepByStep = () => {
                       description={item.description}
                       price={item.price}
                       suplierID={item.id}
+                      status={item.status}
                       categoryId={services[selectedTab]?.id}
                     />
                   ))}

@@ -202,9 +202,26 @@ const CoupleServiceDetail = () => {
                     right: '20px',
                   }}
                 >
-                  <Typography variant="h3" fontWeight={600}>
-                    {service?.name}
-                  </Typography>
+                  <Box
+                    display={'flex'}
+                    justifyContent={'space-between'}
+                    alignItems={'center'}
+                  >
+                    {' '}
+                    <Typography variant="h3" fontWeight={600}>
+                      {service?.name}
+                    </Typography>
+                    {service?.status === 'ACTIVATED' ? (
+                      <Typography variant="h6" fontWeight={600} color={'green'}>
+                        Hoạt động
+                      </Typography>
+                    ) : (
+                      <Typography variant="h6" fontWeight={600} color={'gray'}>
+                        Ngừng kinh doanh
+                      </Typography>
+                    )}
+                  </Box>
+
                   <Box
                     sx={{
                       marginTop: 1,
@@ -241,29 +258,32 @@ const CoupleServiceDetail = () => {
                   >
                     <b> Đơn giá: {service?.price.toLocaleString()} VNĐ</b>
                   </Box>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      fontSize: 16,
-                      marginTop: 2,
-                    }}
-                  >
-                    <LocationOnIcon />
+                  {service?.supplierResponse?.area?.province && (
                     <Box
                       sx={{
-                        color: 'black',
-                        textDecorationColor: 'black',
-                        ml: 1,
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontSize: 16,
+                        marginTop: 2,
                       }}
                     >
-                      {service?.supplierResponse?.area?.ward}
-                      {', '}
-                      {service?.supplierResponse?.area?.district}
-                      {', '}
-                      {service?.supplierResponse?.area?.province}
+                      <LocationOnIcon />
+                      <Box
+                        sx={{
+                          color: 'black',
+                          textDecorationColor: 'black',
+                          ml: 1,
+                        }}
+                      >
+                        {service?.supplierResponse?.area?.ward}
+                        {', '}
+                        {service?.supplierResponse?.area?.district}
+                        {', '}
+                        {service?.supplierResponse?.area?.province}
+                      </Box>
                     </Box>
-                  </Box>
+                  )}
+
                   {(service?.serviceResponse?.categoryResponse.id ===
                     'CATEGORY-1' ||
                     service?.serviceResponse?.categoryResponse.id ===
@@ -316,6 +336,7 @@ const CoupleServiceDetail = () => {
                   )}
                   <Button
                     variant="contained"
+                    disabled={service?.status !== 'ACTIVATED'}
                     fullWidth={true}
                     size="large"
                     sx={{

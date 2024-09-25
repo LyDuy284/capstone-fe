@@ -33,7 +33,8 @@ export const getServiceByCategory = async (
   minPrice?: number,
   maxPrice?: number,
   type?: string,
-  serviceId?: string
+  serviceId?: string,
+  status?: string
 ): Promise<any[]> => {
   try {
     const response = await axios.get('/service-supplier/filter', {
@@ -43,6 +44,7 @@ export const getServiceByCategory = async (
         maxPrice: maxPrice,
         type: type,
         serviceId: serviceId,
+        status: status,
       },
     });
     return response.data.data;
@@ -244,7 +246,7 @@ export const getListCombo = async (
   pageSize: number
 ): Promise<any[]> => {
   try {
-    const response = await axios.get('/combo/getComboByFilter', {
+    const response = await axios.get('/combo/getActiveCombo', {
       params: {
         pageNo: pageNo,
         pageSize: pageSize,

@@ -21,7 +21,6 @@ const CoupleService = () => {
   const { categoryID } = useParams();
 
   const location = useLocation();
-  const path = location.pathname.split('/')[2];
   // const coupleServiceData = ServiceData.find((e) => e.name === path);
   const [selectedService, setSelectedService] = useState<any[]>([]);
 
@@ -36,6 +35,7 @@ const CoupleService = () => {
   const [type, setType] = useState('');
   const [priceRange, setPriceRange] = useState('');
   const [service, setService] = useState('');
+  const [status, setStatus] = useState('');
 
   const getServices = async (categoryID: string) => {
     setLoading(true);
@@ -47,7 +47,8 @@ const CoupleService = () => {
     categoryID: string,
     type: string,
     priceRange: string,
-    serviceID: string
+    serviceID: string,
+    status: string
   ) => {
     // Convert price range to minPrice and maxPrice
     setLoading(true);
@@ -85,7 +86,8 @@ const CoupleService = () => {
       minPrice,
       maxPrice,
       type,
-      serviceID
+      serviceID,
+      status
     );
     setSelectedServiceList(response);
     setLoading(false);
@@ -93,7 +95,7 @@ const CoupleService = () => {
 
   useEffect(() => {
     getServices(categoryID ?? '');
-    getSelectedServiceList(categoryID ?? '', '', '', '');
+    getSelectedServiceList(categoryID ?? '', '', '', '', '');
   }, []);
   // Handle page change
   const handlePageChange = (
@@ -108,13 +110,25 @@ const CoupleService = () => {
     setCurrentPage(1);
     const newType = event.target.value;
     setType(newType);
-    getSelectedServiceList(categoryID ?? '', newType, priceRange, service);
+    getSelectedServiceList(
+      categoryID ?? '',
+      newType,
+      priceRange,
+      service,
+      status
+    );
   };
   const handleServiceChange = (event: any) => {
     setCurrentPage(1);
     const newService = event.target.value;
     setService(newService);
-    getSelectedServiceList(categoryID ?? '', type, priceRange, newService);
+    getSelectedServiceList(
+      categoryID ?? '',
+      type,
+      priceRange,
+      newService,
+      status
+    );
   };
 
   // Handle price range change
@@ -122,7 +136,25 @@ const CoupleService = () => {
     setCurrentPage(1);
     const newPriceRange = event.target.value;
     setPriceRange(newPriceRange);
-    getSelectedServiceList(categoryID ?? '', type, newPriceRange, service);
+    getSelectedServiceList(
+      categoryID ?? '',
+      type,
+      newPriceRange,
+      service,
+      status
+    );
+  };
+  const handleStatusChange = (event: any) => {
+    setCurrentPage(1);
+    const newStatus = event.target.value;
+    setStatus(newStatus);
+    getSelectedServiceList(
+      categoryID ?? '',
+      type,
+      priceRange,
+      service,
+      newStatus
+    );
   };
   // Paginate items
   const paginatedItems = selectedServiceList?.slice(
@@ -135,7 +167,7 @@ const CoupleService = () => {
     setPriceRange('');
     setService('');
     setCurrentPage(1);
-    getSelectedServiceList(categoryID ?? '', '', '', '');
+    getSelectedServiceList(categoryID ?? '', '', '', '', '');
   };
   return (
     <div id="CoupleService">
@@ -145,6 +177,32 @@ const CoupleService = () => {
 
       <div className="content">
         <aside className="aside-bar">
+          <div className="filter-component">
+            <legend className="filter-name">Trạng thái</legend>
+            <ul className="filter-list">
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                value={status}
+                onChange={handleStatusChange}
+                name="radio-buttons-group"
+              >
+                <li className="filter-item">
+                  <Radio
+                    sx={{ '& .MuiSvgIcon-root': { fontSize: 18 } }}
+                    value="ACTIVATED"
+                  />
+                  Hoạt động
+                </li>
+                <li className="filter-item">
+                  <Radio
+                    sx={{ '& .MuiSvgIcon-root': { fontSize: 18 } }}
+                    value="DISABLED"
+                  />
+                  Ngừng kinh doanh
+                </li>
+              </RadioGroup>
+            </ul>
+          </div>
           <div className="filter-component">
             <legend className="filter-name">Phân cấp</legend>
             <ul className="filter-list">
@@ -282,6 +340,7 @@ const CoupleService = () => {
                   price={item.price}
                   suplierID={item.id}
                   categoryId={categoryID ?? ''}
+                  status={item.status}
                 />
               ))}
           </ul>
