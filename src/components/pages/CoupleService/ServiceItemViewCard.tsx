@@ -15,6 +15,7 @@ interface ServiceItemViewCardProps {
   suplierID: string;
   promotion: any;
   categoryId: string;
+  status: string;
 }
 
 const ServiceItemViewCard: React.FC<ServiceItemViewCardProps> = ({
@@ -28,9 +29,9 @@ const ServiceItemViewCard: React.FC<ServiceItemViewCardProps> = ({
   suplierID,
   promotion,
   categoryId,
+  status,
 }) => {
   const navigate = useNavigate();
-  console.log(categoryId);
   return (
     <li className="content-item">
       <div className="content-gallery">
@@ -48,13 +49,22 @@ const ServiceItemViewCard: React.FC<ServiceItemViewCardProps> = ({
         >
           {title}
         </h2>
+        <div className="flex justify-between">
+          <Chip
+            label={type === 'LUXURY' ? 'Cao cấp' : 'Phổ thông'}
+            color={type === 'LUXURY' ? 'secondary' : 'warning'}
+            sx={{ width: 80, fontSize: 10, fontWeight: 600 }}
+            size="small"
+          />
+          {status === 'ACTIVATED' ? (
+            <div className="text-xl font-bold text-green-400">Hoạt động</div>
+          ) : (
+            <div className="text-xl font-bold text-gray-400">
+              Ngừng kinh doanh
+            </div>
+          )}
+        </div>
 
-        <Chip
-          label={type === 'LUXURY' ? 'Cao cấp' : 'Phổ thông'}
-          color={type === 'LUXURY' ? 'secondary' : 'warning'}
-          sx={{ width: 80, fontSize: 10, fontWeight: 600 }}
-          size="small"
-        />
         <div className="font-bold text-2xl my-5">
           {' '}
           {price.toLocaleString('vi-VN')} VNĐ
@@ -74,10 +84,19 @@ const ServiceItemViewCard: React.FC<ServiceItemViewCardProps> = ({
         </p>
         <div className="item-footer">
           <Button
-            className="btn-item"
-            sx={{ minWidth: 200 }}
-            style={{ backgroundColor: 'var(--primary-color)' }}
             variant="contained"
+            disabled={status !== 'ACTIVATED'}
+            fullWidth={true}
+            size="large"
+            sx={{
+              marginTop: 4,
+              backgroundColor: 'var(--primary-color)',
+              '&:hover': {
+                backgroundColor: 'var(--btn-hover-color)',
+              },
+              fontWeight: 700,
+              fontSize: 16,
+            }}
             onClick={() => {
               addToCart({
                 id: id,
@@ -90,7 +109,7 @@ const ServiceItemViewCard: React.FC<ServiceItemViewCardProps> = ({
               });
             }}
           >
-            Đặt hàng
+            Đặt dịch vụ
           </Button>
         </div>
       </div>
