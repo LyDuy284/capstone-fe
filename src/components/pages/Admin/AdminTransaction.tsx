@@ -81,14 +81,14 @@ const AdminTransaction: FC<Props> = (props) => {
         id: booking.id,
         idDisplay: parseInt(`${booking.id.split('BOOKING-')[1]}`),
         status: booking?.status,
-        totalPrice: booking.totalPrice,
+        totalPrice: currencyMaskString(parseInt(`${booking.totalPrice}`)),
         booking: booking
     })) : [];
 
     const columns: GridColDef[] = [
         { field: "idDisplay", headerName: "ID", flex: 0.2 },
         { field: "status", headerName: "Trạng thái", flex: 0.5 },
-        { field: "totalPrice", headerName: "Tổng giá", flex: 0.5 },
+        { field: "totalPrice", headerName: "Tổng giá", flex: 0.5 }, 
         {
             field: 'booking',
             headerName: 'Chi tiết',

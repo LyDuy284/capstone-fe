@@ -163,6 +163,7 @@ const CoupleService = () => {
   );
 
   const resetFilters = () => {
+    setStatus('');
     setType('');
     setPriceRange('');
     setService('');
