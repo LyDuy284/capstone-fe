@@ -224,7 +224,7 @@ const StaffManageComboServices: FC<Props> = (props) => {
   };
   const fetchData = async () => {
     // setLoading(true);
-    const response = await getListCombo(0, 10, true);
+    const response = await getListCombo(0, 100, true);
     if (response) {
       if (response.status === "SUCCESS") setData(response.data);
     } else {
@@ -242,6 +242,8 @@ const StaffManageComboServices: FC<Props> = (props) => {
   };
 
   const uploadImage = async (files: FileList | null) => {
+    console.log("Upload Img");
+    
     if (files) {
       const fileRef = files[0];
       const storageRef = ref(storage, `images/${fileRef?.name}`);
@@ -263,16 +265,12 @@ const StaffManageComboServices: FC<Props> = (props) => {
 
   const handleSubmit = async () => {
     try {
-      let getImagesPayload = "";
-      images.map((image) => {
-        getImagesPayload += image + "\n, ";
-      });
-      console.log("Image: ", getImagesPayload);
-      
+      console.log("Submit: ", images);
+
       if(isEdit) {
         const newCombo: ComboUpdate = {
           description: content,
-          images: getImagesPayload,
+          image: `${images}`,
           name: comboTitle,
           id: `${serviceDetail?.id}`,
         };
@@ -294,7 +292,7 @@ const StaffManageComboServices: FC<Props> = (props) => {
       } else {
         const newCombo: ComboCreate = {
           description: content,
-          images: getImagesPayload,
+          image: `${images}`,
           listServiceSupplierId: selected,
           name: comboTitle,
           staffId: user?.userId,

@@ -126,7 +126,7 @@ export interface ServicesUpdate {
 }
 export interface ComboCreate {
     description: String,
-    images: String,
+    image: String,
     listServiceSupplierId: Array<String>,
     name: String,
     staffId: String,
@@ -134,7 +134,7 @@ export interface ComboCreate {
 
 export interface ComboUpdate {
     description: String,
-    images: String,
+    image: String,
     name: String,
     id: String,
 }
