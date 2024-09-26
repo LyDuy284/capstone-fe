@@ -161,7 +161,7 @@ const Register: FC<Props> = (props) => {
             await registerSupplier(supplierRegister, dispatch, navigate);
             props.setMessageStatus("green");
             props.setMessage(
-              "Đăng ký thành công"
+              "Đăng ký thành công, VUI LÒNG CHECK EMAIL ĐỂ XÁC NHẬN"
             );
             navigate('/login');
             break;
@@ -179,7 +179,7 @@ const Register: FC<Props> = (props) => {
             await registerCouple(coupleRegister, dispatch, navigate);
             props.setMessageStatus("green");
             props.setMessage(
-              "Đăng ký thành công"
+              "Đăng ký thành công, VUI LÒNG CHECK EMAIL ĐỂ XÁC NHẬN"
             );
             navigate('/login');
             break;
