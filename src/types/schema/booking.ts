@@ -23,7 +23,7 @@ export interface ServiceBookingItem {
 export interface BookingItem {
     weddingDate: String,
     coupleResponse: CoupleItem,
-    createAt: String,
+    createdAt: String,
     id: String,
     note: String,
     status: String,
