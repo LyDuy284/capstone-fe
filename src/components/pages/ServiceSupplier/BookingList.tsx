@@ -148,7 +148,7 @@ const BookingList: FC<Props> = (props) => {
         coupleName: booking.coupleResponse.account.name,
         phoneNumber: booking.coupleResponse.account.phoneNumber,
         weddingDate: booking.weddingDate,
-        createAt: booking.createAt,
+        createdAt: booking.createdAt,
         status: convertStatusName(`${booking.status}`),
         booking: booking
     })) : [];
@@ -158,6 +158,7 @@ const BookingList: FC<Props> = (props) => {
         { field: "coupleName", headerName: "Tên couple", flex: 0.5 },
         { field: "weddingDate", headerName: "Ngày cưới", flex: 0.5 },
         { field: "phoneNumber", headerName: "Số điện thoại", flex: 0.5 },
+        { field: "createdAt", headerName: "Ngày đặt đơn", flex: 0.5 },
         {
             field: 'booking',
             headerName: 'Chi tiết',
