@@ -377,7 +377,6 @@ const Services: FC<Props> = (props) => {
             renderCell: (params) => (
                 <div className="action">
                     <VisibilityIcon className="hover" style={{ color: "green" }} onClick={() => navigate(`/service-detail/SERVICE-SUPPLIER-${params.id}`)}></VisibilityIcon>
-                    <DeleteIcon className="hover" style={{ color: "red" }}></DeleteIcon>
                 </div>
             ),
         }
