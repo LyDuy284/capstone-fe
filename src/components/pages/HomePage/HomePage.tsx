@@ -227,7 +227,7 @@ const HomePage: React.FC = () => {
             {visibleCount < categories.length && (
               <Box mt={4} textAlign="center">
                 <div
-                  className="cursor-pointer text-2xl font-semibold text-yellow-400 hover:text-yellow-500 "
+                  className="cursor-pointer text-2xl font-semibold text-green-400 hover:text-green-500 "
                   onClick={handleShowMore}
                 >
                   Xem thêm <KeyboardArrowDown sx={{ fontSize: 24 }} />

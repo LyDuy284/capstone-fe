@@ -3,6 +3,7 @@ import "./StaffManager.css";
 import {
   Box,
   Button,
+  Chip,
   CircularProgress,
   FormControl,
   IconButton,
@@ -32,6 +33,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { BlogsItem } from "../../../types/schema/blog/dto/blog.dto";
 import { PostCreate, PostUpdate } from "../../../types/entity/Entity";
 import { BlogDetail } from "../../../types/schema/blog";
+import { COMBO_STATUS, PROCESS_STATUS_VN, STATUS } from "../../../constants/consts";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -73,6 +75,7 @@ const StaffManageBlogs: FC<Props> = (props) => {
   const handleDelete = async (id: number, token: string) => {
     try {
       const status = await deleteBlog(id, token);
+      fetchData();
       if (status === "SUCCESS") {
         props.setMessageStatus("green");
         props.setMessage("Cập nhật thành công");
@@ -104,7 +107,35 @@ const StaffManageBlogs: FC<Props> = (props) => {
     {
       field: "status",
       headerName: "Trạng thái",
+      align: "center",
       flex: 1,
+      headerAlign: "center",
+      renderCell: (params) =>
+        params.value === STATUS.active ? (
+          <Chip
+            label={COMBO_STATUS.ACTIVATED}
+            sx={{
+              height: "24px",
+              width: "80px",
+              fontSize: 10,
+              fontWeight: 600,
+              color: "green",
+              bgcolor: "#abffdc",
+            }}
+          />
+        ) : (
+          <Chip
+            label={COMBO_STATUS.DISABLED}
+            sx={{
+              height: "24px",
+              width: "80px",
+              fontSize: 10,
+              fontWeight: 600,
+              color: "red",
+              bgcolor: "#ffcaca",
+            }}
+          />
+        ),
     },
     {
       field: "actions",

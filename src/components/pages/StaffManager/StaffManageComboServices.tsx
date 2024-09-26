@@ -93,6 +93,7 @@ const StaffManageComboServices: FC<Props> = (props) => {
       } else {
         newStatus = await activatedCombo(id, token);
       }
+      fetchData();
       if (newStatus === "SUCCESS") {
         props.setMessageStatus("green");
         props.setMessage("Cập nhật thành công");
@@ -263,9 +264,10 @@ const StaffManageComboServices: FC<Props> = (props) => {
   const handleSubmit = async () => {
     try {
       let getImagesPayload = "";
-      images?.map((image) => {
+      images.map((image) => {
         getImagesPayload += image + "\n, ";
       });
+      console.log("Image: ", getImagesPayload);
       
       if(isEdit) {
         const newCombo: ComboUpdate = {
@@ -303,6 +305,8 @@ const StaffManageComboServices: FC<Props> = (props) => {
           dispatch,
           navigate
         );
+        console.log("Api Respone: ", status);
+        
         fetchData();
         handleClose();
         if (status === "SUCCESS") {

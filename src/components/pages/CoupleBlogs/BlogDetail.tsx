@@ -53,6 +53,12 @@ const BlogDetails: React.FC = () => {
     setBlogDetail(response);
   };
 
+  const renderContent = (content: string) => {
+    return content.split('\n').map((item, index) => (
+      <p key={index}>{item}</p>
+    ));
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -86,7 +92,8 @@ const BlogDetails: React.FC = () => {
         </Grid>
 
         <Typography variant="body1" my={4}>
-          {blogDetail?.content}
+          {/* {blogDetail?.content} */}
+          {blogDetail?.content && renderContent(blogDetail.content)}
         </Typography>
       </Paper>
 
