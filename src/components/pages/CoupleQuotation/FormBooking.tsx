@@ -141,6 +141,7 @@ const FormBooking: React.FC<ServiceModalProps> = ({
           borderRadius: '15px',
           padding: '5% 5%',
           bgcolor: 'var(--white-color)',
+          overflowY: 'auto',
         }}
       >
         <Typography id="modal-modal-description">
