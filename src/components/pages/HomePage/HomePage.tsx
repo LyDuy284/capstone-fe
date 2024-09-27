@@ -68,6 +68,7 @@ const HomePage: React.FC = () => {
         pageSize: 100,
       });
       setBlogsList(blogs);
+      setLoadingBlog(false);
     } catch (error) {
       setBlogsList([]);
       setLoadingBlog(false);
