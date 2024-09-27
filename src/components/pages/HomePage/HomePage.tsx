@@ -16,7 +16,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { ServiceData } from '../../../utils/ServiceData';
 import { getBlogsList, getListCombo } from '../../../api/CoupleAPI';
 import { getListCategories } from '../../../redux/apiRequest';
-import { KeyboardArrowDown } from '@mui/icons-material';
+import { Inventory, KeyboardArrowDown } from '@mui/icons-material';
 
 const data = [
   {
@@ -48,7 +48,10 @@ const data = [
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loadingBlog, setLoadingBlog] = useState(false);
+  const [loadingCombo, setLoadingCombo] = useState(false);
+  const [loadingCategory, setLoadingCategory] = useState(false);
+
   const [slide, setSlide] = useState(0);
   const [blogsList, setBlogsList] = useState<any[]>([]);
   const [combos, setCombos] = useState<any[]>([]);
@@ -57,21 +60,45 @@ const HomePage: React.FC = () => {
   const handleShowMore = () => {
     setVisibleCount((prevCount) => prevCount + 9);
   };
-  const getData = async () => {
-    setLoading(true);
-    const blogs = await getBlogsList({
-      pageNo: 0,
-      pageSize: 100,
-    });
-    setBlogsList(blogs);
-    const combos = await getListCombo(0, 100);
-    setCombos(combos);
-    const categories = await getListCategories(0, 100);
-    setCategories(categories.data);
-    setLoading(false);
+  const getBlogs = async () => {
+    setLoadingBlog(true);
+    try {
+      const blogs = await getBlogsList({
+        pageNo: 0,
+        pageSize: 100,
+      });
+      setBlogsList(blogs);
+    } catch (error) {
+      setBlogsList([]);
+      setLoadingBlog(false);
+    }
+  };
+  const getCategories = async () => {
+    setLoadingCategory(true);
+    try {
+      const categories = await getListCategories(0, 100);
+      setCategories(categories.data);
+      setLoadingCategory(false);
+    } catch (error) {
+      setCategories([]);
+      setLoadingCategory(false);
+    }
+  };
+  const getCombos = async () => {
+    setLoadingCombo(true);
+    try {
+      const combos = await getListCombo(0, 100);
+      setCombos(combos);
+      setLoadingCombo(false);
+    } catch (error) {
+      setCombos([]);
+      setLoadingCombo(false);
+    }
   };
   useEffect(() => {
-    getData();
+    getBlogs();
+    getCategories();
+    getCombos();
   }, []);
   const formatDate = (dateString: string) => {
     if (!dateString) return '';
@@ -91,7 +118,6 @@ const HomePage: React.FC = () => {
 
     return `${formattedTime}, ${formattedDate}`;
   };
-  const services = ServiceData;
 
   const nextSlide = () => {
     setSlide(slide === data.length - 1 ? 0 : slide + 1);
@@ -175,54 +201,69 @@ const HomePage: React.FC = () => {
           </span>
         </div>
       </Box>
-      {loading ? (
-        <div className="flex h-[50vh] justify-center items-center">
-          <CircularProgress />
-        </div>
-      ) : (
-        <>
-          {' '}
-          <Box my={8} mx={40}>
-            <Typography
-              mb={4}
-              variant="h2"
-              fontWeight={600}
-              sx={{ textTransform: 'uppercase', color: 'var(--primary-color)' }}
-            >
-              Các dịch vụ chính
-            </Typography>
+
+      <Box my={8} mx={40}>
+        <Typography
+          mb={4}
+          variant="h2"
+          fontWeight={600}
+          sx={{ textTransform: 'uppercase', color: 'var(--primary-color)' }}
+        >
+          Các dịch vụ chính
+        </Typography>
+        {loadingCategory ? (
+          <div className="flex h-[50vh] justify-center items-center">
+            <CircularProgress />
+          </div>
+        ) : (
+          <>
             <Grid container spacing={4}>
-              {categories.slice(0, visibleCount).map((service, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <Card
-                    sx={{
-                      '&:hover': {
-                        boxShadow: 6,
-                        transform: 'scale(1.05)',
-                        transition: 'transform 0.2s',
-                      },
-                    }}
-                    elevation={4}
-                  >
-                    <CardContent>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          color: 'var(--primary-color)',
-                          cursor: 'pointer',
-                          textTransform: 'uppercase',
-                          fontWeight: 600,
-                        }}
-                        onClick={() => {
-                          window.location.href = `/services/${service.id}`;
-                        }}
-                      >
-                        {service.categoryName}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
+              {categories.length !== 0 ? (
+                categories.slice(0, visibleCount).map((service, index) => (
+                  <Grid item xs={12} sm={6} md={4} key={index}>
+                    <Card
+                      sx={{
+                        '&:hover': {
+                          boxShadow: 6,
+                          transform: 'scale(1.05)',
+                          transition: 'transform 0.2s',
+                        },
+                      }}
+                      elevation={4}
+                    >
+                      <CardContent>
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            color: 'var(--primary-color)',
+                            cursor: 'pointer',
+                            textTransform: 'uppercase',
+                            fontWeight: 600,
+                          }}
+                          onClick={() => {
+                            window.location.href = `/services/${service.id}`;
+                          }}
+                        >
+                          {service.categoryName}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))
+              ) : (
+                <>
+                  <div className="w-full h-[32vh] flex flex-col justify-center items-center gap-4">
+                    <div>
+                      <Inventory
+                        sx={{ width: 60, height: 60, color: 'gray' }}
+                      />
+                    </div>
+                    <div className="font-semibold text-3xl text-gray-500">
+                      Không có kết quả
+                    </div>
+                  </div>
+                </>
+              )}
             </Grid>
             {visibleCount < categories.length && (
               <Box mt={4} textAlign="center">
@@ -234,36 +275,32 @@ const HomePage: React.FC = () => {
                 </div>
               </Box>
             )}
-          </Box>
-          <Box my={8} mx={2}>
-            <Typography
-              mb={2}
-              variant="h2"
-              fontWeight={600}
-              sx={{ textTransform: 'uppercase', color: 'var(--primary-color)' }}
-            >
-              Các Gói Combo
-            </Typography>
-            <Box
-              ref={scrollRef}
-              sx={{
-                display: 'flex',
-                overflowX: 'auto',
-                '&::-webkit-scrollbar': {
-                  display: 'none',
-                },
-                msOverflowStyle: 'none',
-                scrollbarWidth: 'none',
-                gap: 2,
-                cursor: 'grab',
-                padding: 2,
-              }}
-              onMouseDown={handleMouseDown}
-              onMouseLeave={handleMouseLeave}
-              onMouseUp={handleMouseUp}
-              onMouseMove={handleMouseMove}
-            >
-              {combos.map((combo, index) => (
+          </>
+        )}
+      </Box>
+      <Box my={8} mx={2}>
+        <Typography
+          mb={2}
+          variant="h2"
+          fontWeight={600}
+          sx={{ textTransform: 'uppercase', color: 'var(--primary-color)' }}
+        >
+          Các Gói Combo
+        </Typography>
+        {loadingCombo ? (
+          <div className="flex h-[50vh] justify-center items-center">
+            <CircularProgress />
+          </div>
+        ) : (
+          <div
+            className="overflow-auto flex gap-2 p-2 pb-6"
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeave}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+          >
+            {combos.length !== 0 ? (
+              combos.map((combo, index) => (
                 <Card
                   onClick={() => {
                     navigate(`/combo-services/${combo.id}`);
@@ -299,26 +336,45 @@ const HomePage: React.FC = () => {
                     <Typography fontSize={14}> {combo.description}</Typography>
                   </CardContent>
                 </Card>
-              ))}
-            </Box>
-          </Box>
-          <Box my={4}>
-            <Typography
-              mb={4}
-              variant="h2"
-              fontWeight={600}
-              sx={{ textTransform: 'uppercase', color: 'var(--primary-color)' }}
-            >
-              Cẩm nang cưới
-            </Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-around',
-                flexWrap: 'wrap',
-              }}
-            >
-              {blogsList.map((blog, index) => (
+              ))
+            ) : (
+              <>
+                <div className="w-full h-[32vh] flex flex-col justify-center items-center gap-4">
+                  <div>
+                    <Inventory sx={{ width: 60, height: 60, color: 'gray' }} />
+                  </div>
+                  <div className="font-semibold text-3xl text-gray-500">
+                    Không có kết quả
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+      </Box>
+      <Box my={4}>
+        <Typography
+          mb={4}
+          variant="h2"
+          fontWeight={600}
+          sx={{ textTransform: 'uppercase', color: 'var(--primary-color)' }}
+        >
+          Cẩm nang cưới
+        </Typography>
+        {loadingBlog ? (
+          <div className="flex h-[50vh] justify-center items-center">
+            <CircularProgress />
+          </div>
+        ) : (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-around',
+              flexWrap: 'wrap',
+            }}
+          >
+            {blogsList.length !== 0 ? (
+              blogsList.map((blog, index) => (
                 <Card
                   key={index}
                   sx={{
@@ -361,46 +417,54 @@ const HomePage: React.FC = () => {
                     </Typography>
                   </CardContent>
                 </Card>
-              ))}
-              <Card
+              ))
+            ) : (
+              <>
+                <div className="w-full h-[32vh] flex flex-col justify-center items-center gap-4">
+                  <div>
+                    <Inventory sx={{ width: 60, height: 60, color: 'gray' }} />
+                  </div>
+                  <div className="font-semibold text-3xl text-gray-500">
+                    Không có kết quả
+                  </div>
+                </div>
+              </>
+            )}
+            <Card
+              sx={{
+                width: 250,
+                m: 2,
+                '&:hover': {
+                  boxShadow: 6,
+                  transform: 'scale(1.05)',
+                  transition: 'transform 0.2s',
+                },
+              }}
+              elevation={3}
+              onClick={() => {
+                navigate('/blogs-couple');
+              }}
+            >
+              <CardContent
                 sx={{
-                  width: 250,
-                  m: 2,
-                  '&:hover': {
-                    boxShadow: 6,
-                    transform: 'scale(1.05)',
-                    transition: 'transform 0.2s',
-                  },
-                }}
-                elevation={3}
-                onClick={() => {
-                  navigate('/blogs-couple');
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                  height: '100%',
                 }}
               >
-                <CardContent
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    height: '100%',
-                  }}
-                >
-                  <ArrowForwardIcon
-                    sx={{ fontSize: 40, mb: 1, color: 'var(--primary-color)' }}
-                  />
-                  <Typography
-                    variant="h4"
-                    sx={{ color: 'var(--primary-color)' }}
-                  >
-                    Xem thêm
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Box>
+                <ArrowForwardIcon
+                  sx={{ fontSize: 40, mb: 1, color: 'var(--primary-color)' }}
+                />
+                <Typography variant="h4" sx={{ color: 'var(--primary-color)' }}>
+                  Xem thêm
+                </Typography>
+              </CardContent>
+            </Card>
           </Box>
-        </>
-      )}
+        )}
+      </Box>
     </Box>
   );
 };
