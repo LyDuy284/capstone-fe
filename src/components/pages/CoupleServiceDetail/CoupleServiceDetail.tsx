@@ -285,9 +285,9 @@ const CoupleServiceDetail = () => {
                   )}
 
                   {(service?.serviceResponse?.categoryResponse.id ===
-                    'CATEGORY-1' ||
+                    'CATEGORY-3' ||
                     service?.serviceResponse?.categoryResponse.id ===
-                      'CATEGORY-7') && (
+                      'CATEGORY-4') && (
                     <Box
                       sx={{
                         mt: 2,

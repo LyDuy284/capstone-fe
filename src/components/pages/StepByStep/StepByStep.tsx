@@ -180,6 +180,7 @@ const StepByStep = () => {
   );
 
   const resetFilters = () => {
+    setStatus('');
     setType('');
     setPriceRange('');
     setService('');

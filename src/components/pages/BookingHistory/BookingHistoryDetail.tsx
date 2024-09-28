@@ -266,7 +266,7 @@ const BookingHistoryDetail: React.FC = () => {
                   >
                     Trạng thái
                   </TableCell>
-                  {(data?.status === BOOKING_STATUS.processing ||
+                  {(
                     data?.status === BOOKING_STATUS.completed ||
                     data?.status === BOOKING_STATUS.deposited) && (
                     <TableCell
@@ -347,7 +347,7 @@ const BookingHistoryDetail: React.FC = () => {
                       <TableCell sx={{ fontSize: 14, textAlign: 'center' }}>
                         <StatusChip status={detail.status} />
                       </TableCell>
-                      {(detail?.status === BOOKING_STATUS.processing ||
+                      {(
                         detail?.status === BOOKING_STATUS.deposited) && (
                         <>
                           <TableCell sx={{ textAlign: 'center' }}>
@@ -418,7 +418,7 @@ const BookingHistoryDetail: React.FC = () => {
                                   fontSize: 10,
                                   fontWeight: 600,
                                 }}
-                                disabled={detail.serviceSupplier.rating !== 0}
+                                disabled={detail.serviceSupplier.rating !== 0 || detail.status !== BOOKING_STATUS.completed}
                                 onClick={() => {
                                   setOpenRating(true);
                                   setDetailId(detail.id);
