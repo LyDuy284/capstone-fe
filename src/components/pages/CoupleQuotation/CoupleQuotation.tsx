@@ -191,8 +191,8 @@ const CoupleQuotation: React.FC = () => {
                     size="small"
                     InputProps={{ inputProps: { min: 1 } }}
                     disabled={
-                      product.category !== 'CATEGORY-1' &&
-                      product.category !== 'CATEGORY-7'
+                      product.category !== 'CATEGORY-3' &&
+                      product.category !== 'CATEGORY-4'
                     }
                   />
                 </TableCell>
