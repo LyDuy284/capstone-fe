@@ -9,7 +9,7 @@ import CheckroomIcon from '@mui/icons-material/Checkroom';
 
 export const ServiceData = [
   {
-    id: 'CATEGORY-2',
+    id: 'CATEGORY-1',
     name: 'jewelry',
     label: 'Dạm ngõ',
     icon: <DiamondIcon sx={{ fontSize: 40 }} />,
@@ -33,7 +33,7 @@ export const ServiceData = [
     ],
   },
   {
-    id: 'CATEGORY-9',
+    id: 'CATEGORY-2',
     name: 'wedding-gifts',
     label: 'Sính lễ',
     icon: <RegistryIcon sx={{ fontSize: 40 }} />,
@@ -57,7 +57,7 @@ export const ServiceData = [
     ],
   },
   {
-    id: 'CATEGORY-1',
+    id: 'CATEGORY-3',
     name: 'invitations',
     label: 'Thiệp cưới',
     icon: <WeddingIcon sx={{ fontSize: 40 }} />,
@@ -80,7 +80,7 @@ export const ServiceData = [
     ],
   },
   {
-    id: 'CATEGORY-7',
+    id: 'CATEGORY-4',
     name: 'venues',
     label: 'Địa điểm',
     icon: <RegistryIcon sx={{ fontSize: 40 }} />,
@@ -117,7 +117,7 @@ export const ServiceData = [
     ],
   },
   {
-    id: 'CATEGORY-4',
+    id: 'CATEGORY-5',
     name: 'outfits',
     label: 'Trang phục',
     icon: <CheckroomIcon sx={{ fontSize: 40 }} />,
@@ -149,7 +149,7 @@ export const ServiceData = [
     ],
   },
   {
-    id: 'CATEGORY-3',
+    id: 'CATEGORY-6',
     name: 'photography',
     label: 'Ảnh cưới',
     icon: <VendorManagerIcon sx={{ fontSize: 40 }} />,
@@ -179,7 +179,7 @@ export const ServiceData = [
   },
 
   {
-    id: 'CATEGORY-5',
+    id: 'CATEGORY-7',
     name: 'makeup',
     label: 'Make up',
     icon: <AutoFixHighIcon sx={{ fontSize: 40 }} />,
@@ -240,7 +240,7 @@ export const ServiceData = [
     ],
   },
   {
-    id: 'CATEGORY-6',
+    id: 'CATEGORY-9',
     name: 'wedding-car',
     label: 'Xe hoa',
     icon: <DirectionsCarIcon sx={{ fontSize: 40 }} />,
